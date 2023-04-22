@@ -21,7 +21,7 @@ contract MyToken is ERC20 {
         _maxSupply = 1000000000000000000000000;
     }
 
-    function buyToken() public payable {
+    function buyToken() public payable notOwner {
         // buyer needs to pay the minimum price of 1 token
         require(msg.value >= _weiPerSaleToken, "Not enough ether!");
 
@@ -51,9 +51,7 @@ contract MyToken is ERC20 {
         emit tokenPurchased(msg.sender, amount);
     }
 
-    function sellBack(uint256 amount) public {
-        require(msg.sender != owner, "Owner cannot sell!");
-
+    function sellBack(uint256 amount) public notOwner {
         address payable seller = payable(msg.sender);
         uint256 amountInDecimals = amount * (10 ** decimals());
         uint256 amountWorthInWei = amount * _weiPerToken;
@@ -79,5 +77,10 @@ contract MyToken is ERC20 {
         require(msg.sender == owner, "Not contract owner!");
         uint256 amount = address(this).balance;
         to.transfer(amount);
+    }
+
+    modifier notOwner() {
+        require(msg.sender != owner, "Owner cannot call this function!");
+        _;
     }
 }
