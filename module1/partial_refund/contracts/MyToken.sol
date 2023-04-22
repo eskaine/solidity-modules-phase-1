@@ -26,9 +26,10 @@ contract MyToken is ERC20 {
         require(msg.value >= _weiPerSaleToken, "Not enough ether!");
 
         uint256 currentSupply = totalSupply();
+        uint256 ownerBalance = balanceOf(owner);
         uint256 amount = (msg.value / _weiPerSaleToken) * (10 ** decimals());
         // revert if tokens are not available for minting or purchased from contract
-        if((currentSupply + amount) > _maxSupply && amount > balanceOf(owner)) {
+        if((currentSupply + amount) > _maxSupply && amount > ownerBalance) {
             revert("Tokens not available!");
         }
 
@@ -41,7 +42,7 @@ contract MyToken is ERC20 {
         if(_isSaleAvailable && (currentSupply + amount) <= _maxSupply) {
             _mint(msg.sender, amount);
         // buy from contract
-        } else if(amount <= balanceOf(owner)) {
+        } else if(amount <= ownerBalance) {
             approve(owner, amount);
             _spendAllowance(msg.sender, owner, amount);
             _transfer(owner, msg.sender, amount);

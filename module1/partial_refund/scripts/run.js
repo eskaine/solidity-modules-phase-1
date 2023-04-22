@@ -5,7 +5,7 @@ async function main() {
   const myToken = await MyToken.deploy();
   await myToken.deployed();
 
-  const [, account1, account2] = await ethers.getSigners();
+  const [, account1] = await ethers.getSigners();
   const sellAmount = 10000;
   const value = BigInt(Math.pow(10, 21));
   
@@ -24,10 +24,6 @@ async function main() {
   const balance3WithDecimals = await myToken.balanceOf(account1.address);
   const balance3 = ethers.utils.formatEther(balance3WithDecimals);
   console.log(`Account token balance after 2nd purchase: ${balance3}`);
-
-  
-
-  // await myToken.withdraw(account2.address);
 }
 
 main().catch((error) => {
