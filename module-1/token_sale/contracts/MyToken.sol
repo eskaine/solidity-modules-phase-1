@@ -36,6 +36,7 @@ contract MyToken is ERC20 {
 
     function withdraw(address payable to) public payable {
         require(msg.sender == owner, "Not contract owner!");
+        require(totalSupply() == 0, "Tokens are still in circulation!");
         uint256 amount = address(this).balance;
         to.transfer(amount);
     }
