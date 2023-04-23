@@ -6,6 +6,7 @@ typechain
 typechain-types
 package-lock.json
 .ds_store
+.deps
 
 #Hardhat files
 cache
