@@ -6,16 +6,14 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract MyToken is ERC20 {
     address payable public owner;
     bool private _isSaleAvailable;
-    uint256 immutable private _maxSupply;
-    uint256 immutable private _tokenPerEther = 1000;
+    uint256 public constant MAX_SUPPLY = 1000000000000000000000000;
+    uint256 public constant TOKEN_PER_ETHER = 1000;
 
     event tokenPurchased(address);
 
     constructor() ERC20("MyToken", "MT") {
         owner = payable(msg.sender);
         _isSaleAvailable = true;
-        // 1 million tokens with 18 decimal
-        _maxSupply = 1000000000000000000000000;
     }
 
     function buyToken() public payable {
@@ -23,12 +21,12 @@ contract MyToken is ERC20 {
         require(msg.value == 1 ether, "Not enough ether!");
 
         uint256 currentSupply = totalSupply();
-        if(currentSupply == _maxSupply) {
+        if(currentSupply == MAX_SUPPLY) {
             _isSaleAvailable = false;
         }
 
         // tokens are set according to ether decimal places
-        uint256 amount = _tokenPerEther * (10 ** decimals());
+        uint256 amount = TOKEN_PER_ETHER * (10 ** decimals());
         _mint(msg.sender, amount);
 
         emit tokenPurchased(msg.sender);
