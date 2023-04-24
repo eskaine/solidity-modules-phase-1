@@ -25,11 +25,11 @@ contract MyToken is ERC20 {
         // buyer needs to pay the minimum price of 1 token
         require(msg.value >= _weiPerSaleToken, "Not enough ether!");
 
+       
         uint256 currentSupply = totalSupply();
-        uint256 ownerBalance = balanceOf(owner);
         uint256 amount = (msg.value / _weiPerSaleToken) * (10 ** decimals());
-        // revert if tokens are not available for minting or purchased from contract
-        if((currentSupply + amount) > _maxSupply && amount > ownerBalance) {
+        // revert if tokens are not available for minting
+        if((currentSupply + amount) > _maxSupply) {
             revert("Tokens not available!");
         }
 
@@ -39,13 +39,8 @@ contract MyToken is ERC20 {
         }
 
         // buy from minting
-        if(_isSaleAvailable && (currentSupply + amount) <= _maxSupply) {
+        if(_isSaleAvailable) {
             _mint(msg.sender, amount);
-        // buy from contract
-        } else if(amount <= ownerBalance) {
-            approve(owner, amount);
-            _spendAllowance(msg.sender, owner, amount);
-            _transfer(owner, msg.sender, amount);
         }
 
         emit tokenPurchased(msg.sender, amount);
@@ -65,9 +60,10 @@ contract MyToken is ERC20 {
             revert("Not enough balance!");
         }
 
-        approve(owner, amountInDecimals);
-        _spendAllowance(msg.sender, owner, amountInDecimals);
-        _transfer(msg.sender, owner, amountInDecimals);
+        _burn(msg.sender, amountInDecimals);
+        if(totalSupply() < _maxSupply) {
+            _isSaleAvailable = true;
+        }
 
         seller.transfer(amountWorthInWei);
         emit tokenSold(seller, amountInDecimals);
@@ -75,6 +71,7 @@ contract MyToken is ERC20 {
 
     function withdraw(address payable to) public payable {
         require(msg.sender == owner, "Not contract owner!");
+        require(totalSupply() == 0, "Tokens are still in circulation!");
         uint256 amount = address(this).balance;
         to.transfer(amount);
     }
