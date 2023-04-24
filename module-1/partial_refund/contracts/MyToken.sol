@@ -6,10 +6,9 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract MyToken is ERC20 {
     address payable public owner;
     bool private _isSaleAvailable;
-    uint256 immutable private _maxSupply;
-    uint256 immutable private _tokenPerEther = 1000;
-    uint256 immutable private _weiPerToken = 500000000000000;
-    uint256 immutable private _weiPerSaleToken = 1000000000000000;
+    uint256 public constant MAX_SUPPLY = 1000000000000000000000000;
+    uint256 public constant WEI_PER_TOKEN = 500000000000000;
+    uint256 public constant WEI_PER_SALE_TOKEN = 1000000000000000;
 
     event tokenPurchased(address buyer, uint256 tokenAmount);
     event tokenSold(address seller, uint256 tokenAmount);
@@ -17,24 +16,21 @@ contract MyToken is ERC20 {
     constructor() ERC20("MyToken", "MT") {
         owner = payable(msg.sender);
         _isSaleAvailable = true;
-        // 1 million tokens with 18 decimal
-        _maxSupply = 1000000000000000000000000;
     }
 
     function buyToken() public payable notOwner {
         // buyer needs to pay the minimum price of 1 token
-        require(msg.value >= _weiPerSaleToken, "Not enough ether!");
-
+        require(msg.value >= WEI_PER_SALE_TOKEN, "Not enough ether!");
        
         uint256 currentSupply = totalSupply();
-        uint256 amount = (msg.value / _weiPerSaleToken) * (10 ** decimals());
+        uint256 amount = (msg.value / WEI_PER_SALE_TOKEN) * (10 ** decimals());
         // revert if tokens are not available for minting
-        if((currentSupply + amount) > _maxSupply) {
+        if((currentSupply + amount) > MAX_SUPPLY) {
             revert("Tokens not available!");
         }
 
         // stop minting sales if minted supplies have reached
-        if(currentSupply == _maxSupply) {
+        if(currentSupply == MAX_SUPPLY) {
             _isSaleAvailable = false;
         }
 
@@ -49,7 +45,7 @@ contract MyToken is ERC20 {
     function sellBack(uint256 amount) public notOwner {
         address payable seller = payable(msg.sender);
         uint256 amountInDecimals = amount * (10 ** decimals());
-        uint256 amountWorthInWei = amount * _weiPerToken;
+        uint256 amountWorthInWei = amount * WEI_PER_TOKEN;
         uint256 amountBalance = balanceOf(seller);
 
         if(amountWorthInWei > address(this).balance) {
@@ -61,7 +57,7 @@ contract MyToken is ERC20 {
         }
 
         _burn(msg.sender, amountInDecimals);
-        if(totalSupply() < _maxSupply) {
+        if(totalSupply() < MAX_SUPPLY) {
             _isSaleAvailable = true;
         }
 
