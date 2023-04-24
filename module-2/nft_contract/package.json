@@ -1,11 +1,13 @@
 {
   "name": "nft_contract",
   "scripts": {
-    "start": "npx hardhat run --network localhost scripts/run.js"
+    "deploy": "npx hardhat run --network goerli scripts/deploy.js"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
     "@openzeppelin/contracts": "^4.8.3",
+    "dotenv": "^16.0.3",
     "hardhat": "^2.14.0"
   }
 }
