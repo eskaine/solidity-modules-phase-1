@@ -5,7 +5,7 @@ async function main() {
   const myToken = await MyToken.deploy();
   await myToken.deployed();
 
-  const MyNftContract = await hre.ethers.getContractFactory("MyToken");
+  const MyNftContract = await hre.ethers.getContractFactory("MyNftContract");
   const myNftContract = await MyNftContract.deploy();
   await myNftContract.deployed();
 
@@ -17,6 +17,8 @@ async function main() {
   const value = BigInt(Math.pow(10, 18));
   
   await myAuthorityContract.connect(account1).mintToken({value});
+  await myAuthorityContract.connect(account1).approveTokenTransfer();
+  await myAuthorityContract.connect(account1).mintNft();
 
 }
 

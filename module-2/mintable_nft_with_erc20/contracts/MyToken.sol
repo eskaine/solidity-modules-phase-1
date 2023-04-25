@@ -5,21 +5,22 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract MyToken is ERC20 {
     bool private _isSaleAvailable = true;
-    uint256 public constant MAX_SUPPLY = 1000000000000000000000000;
-    uint256 public constant WEI_PER_TOKEN = 500000000000000;
-    uint256 public constant WEI_PER_SALE_TOKEN = 1000000000000000;
+    uint256 internal constant MAX_SUPPLY = 1000000000000000000000000;
+    uint256 internal constant WEI_PER_TOKEN = 1000000000000000;
+    uint256 internal constant NFT_TOKEN_COST = 10000000000000000000;
 
     event tokenPurchased(address buyer, uint256 tokenAmount);
     event tokenSold(address seller, uint256 tokenAmount);
 
     constructor() ERC20("MyToken", "MT") {}
 
-    function buyToken() public payable {
+    function buyToken(address to, uint256 weiAmount) external {
         // buyer needs to pay the minimum price of 1 token
-        require(msg.value >= WEI_PER_SALE_TOKEN, "Not enough ether!");
+        require(weiAmount >= WEI_PER_TOKEN, "Not enough ether!");
 
         uint256 currentSupply = totalSupply();
-        uint256 amount = (msg.value / WEI_PER_SALE_TOKEN) * (10 ** decimals());
+        uint256 amount = (weiAmount / WEI_PER_TOKEN) * (10 ** decimals());
+
         // revert if tokens are not available for minting
         if ((currentSupply + amount) > MAX_SUPPLY) {
             revert("Tokens not available!");
@@ -32,38 +33,27 @@ contract MyToken is ERC20 {
 
         // buy from minting
         if (_isSaleAvailable) {
-            _mint(msg.sender, amount);
+            _mint(to, amount);
         }
 
-        emit tokenPurchased(msg.sender, amount);
+        emit tokenPurchased(to, amount);
     }
 
-    function sellBack(uint256 amount) public {
-        address payable seller = payable(msg.sender);
-        uint256 amountInDecimals = amount * (10 ** decimals());
-        uint256 amountWorthInWei = amount * WEI_PER_TOKEN;
-        uint256 amountBalance = balanceOf(seller);
+    function spendAllowance(address from) external returns (bool) {
+        uint256 tokenAllowance = allowance(msg.sender,from);
+        require(tokenAllowance > 0, "Token withdrawal not approved!");
 
-        if (amountWorthInWei > address(this).balance) {
-            revert("Not enough funds!");
-        }
+        _spendAllowance(msg.sender, from, tokenAllowance);
+        _burn(from , tokenAllowance);
 
-        if (amountInDecimals > amountBalance) {
-            revert("Not enough balance!");
-        }
-
-        _burn(msg.sender, amountInDecimals);
-        if (totalSupply() < MAX_SUPPLY) {
-            _isSaleAvailable = true;
-        }
-
-        seller.transfer(amountWorthInWei);
-        emit tokenSold(seller, amountInDecimals);
+        return true;
     }
 
-    function withdraw(address payable to) public payable {
-        require(totalSupply() == 0, "Tokens are still in circulation!");
-        uint256 amount = address(this).balance;
-        to.transfer(amount);
+    function approveTokenTransfer(address from) external {
+        uint256 fromAmount = balanceOf(from);
+        require(fromAmount >= NFT_TOKEN_COST, "Not enough tokens!");
+
+        approve(from, NFT_TOKEN_COST);
     }
+
 }

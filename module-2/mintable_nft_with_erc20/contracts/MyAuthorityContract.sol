@@ -6,21 +6,28 @@ import "./MyToken.sol";
 
 contract MyAuthorityContract {
     address public owner;
-    address private _myToken;
-    address private _myNftContract;
+    MyToken private _myToken;
+    MyNftContract private _myNftContract;
 
     constructor(address myTokenAddress, address myNftContractAddress) {
         owner = msg.sender;
-        _myToken = myTokenAddress;
-        _myNftContract = myNftContractAddress;
+        _myToken = MyToken(myTokenAddress);
+        _myNftContract = MyNftContract(myNftContractAddress);
     }
 
     function mintToken() external payable notOwner {
-        (bool success) = _myToken.delegatecall(
-            abi.encodeWithSelector(MyToken.buyToken.selector)
-        );
+        _myToken.buyToken(msg.sender, msg.value);
+    }
 
-        require(success, "Token minting failed!");
+    function mintNft() external payable notOwner {
+        bool isAllowanceSpend = _myToken.spendAllowance(msg.sender);
+
+        //mint nft if allowance is spend successfully
+    }
+
+    // pre nft minting, token transfer approval
+    function approveTokenTransfer() external notOwner {
+        _myToken.approveTokenTransfer(msg.sender);
     }
 
     modifier notOwner() {
