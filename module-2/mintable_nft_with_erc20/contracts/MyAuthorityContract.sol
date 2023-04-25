@@ -4,14 +4,27 @@ pragma solidity ^0.8.9;
 import "./MyNftContract.sol";
 import "./MyToken.sol";
 
-contract MyNftContract {
+contract MyAuthorityContract {
     address public owner;
-    MyNftContract public myNftContract;
-    MyToken public myToken;
+    address private _myToken;
+    address private _myNftContract;
 
-    constructor() {
+    constructor(address myTokenAddress, address myNftContractAddress) {
         owner = msg.sender;
-        myNftContract = MyNftContract(msg.sender);
-        myToken = MyToken(msg.sender);
+        _myToken = myTokenAddress;
+        _myNftContract = myNftContractAddress;
+    }
+
+    function mintToken() external payable notOwner {
+        (bool success) = _myToken.delegatecall(
+            abi.encodeWithSelector(MyToken.buyToken.selector)
+        );
+
+        require(success, "Token minting failed!");
+    }
+
+    modifier notOwner() {
+        require(msg.sender != owner, "Owner cannot call this function!");
+        _;
     }
 }

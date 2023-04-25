@@ -1,5 +1,8 @@
 {
   "name": "mintable_nft_with_erc20",
+  "scripts": {
+    "start": "npx hardhat run --network localhost scripts/run.js"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
     "@openzeppelin/contracts": "^4.8.3",

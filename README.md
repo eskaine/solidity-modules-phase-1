@@ -1,4 +1,4 @@
-# Metana Modules
+# Metana Solidity Bootcamp Modules
 
 Module 1
 - [ERC20 with God mode](https://github.com/eskaine/metana-bootcamp/tree/main/module-1/erc20_godmode)
