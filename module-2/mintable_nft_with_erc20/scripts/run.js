@@ -14,12 +14,20 @@ async function main() {
   await myAuthorityContract.deployed();
 
   const [, account1] = await ethers.getSigners();
-  const value = BigInt(Math.pow(10, 18));
+  const weiValue = BigInt(Math.pow(10, 18));
   
-  await myAuthorityContract.connect(account1).mintToken({value});
+  await myAuthorityContract.connect(account1).mintToken({value: weiValue});
   await myAuthorityContract.connect(account1).approveTokenTransfer();
-  await myAuthorityContract.connect(account1).mintNft();
+  const event = await myAuthorityContract.connect(account1).mintNft();
+  const tokenId = Number(event.value);
+  const tokenOwner = await myNftContract.connect(account1).ownerOf(tokenId);
+  console.log(`Account Address: ${account1.address}`);
+  console.log(`Token Owner Address: ${tokenOwner}`);
 
+  const account1Balance = await myToken.balanceOf(account1.address);
+  const authorityBalance = await myToken.balanceOf(myAuthorityContract.address);
+  console.log(`Account Balance: ${Number(account1Balance)}`);
+  console.log(`Authority Balance: ${Number(authorityBalance)}`);
 }
 
 main().catch((error) => {

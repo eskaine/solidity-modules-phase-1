@@ -12,9 +12,9 @@ contract MyNftContract is ERC721 {
 
     constructor() ERC721("MyNftContract", "MNC") {}
 
-    function mint() external {
+    function mint(address to) external {
         require(_ids.current() < MAX_SUPPLY, "Run out of NFTs!");
-        _mint(msg.sender, _ids.current());
+        _mint(to, _ids.current());
         _ids.increment();
     }
 

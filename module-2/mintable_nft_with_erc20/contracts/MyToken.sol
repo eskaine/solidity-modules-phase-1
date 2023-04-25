@@ -39,14 +39,12 @@ contract MyToken is ERC20 {
         emit tokenPurchased(to, amount);
     }
 
-    function spendAllowance(address from) external returns (bool) {
-        uint256 tokenAllowance = allowance(msg.sender,from);
-        require(tokenAllowance > 0, "Token withdrawal not approved!");
+    function spendAllowance(address from) external {
+        uint256 tokenAllowance = allowance(msg.sender, from);
+        require(tokenAllowance == NFT_TOKEN_COST, "Token withdrawal not approved!");
 
         _spendAllowance(msg.sender, from, tokenAllowance);
-        _burn(from , tokenAllowance);
-
-        return true;
+        _transfer(from, msg.sender, tokenAllowance);
     }
 
     function approveTokenTransfer(address from) external {
@@ -55,5 +53,4 @@ contract MyToken is ERC20 {
 
         approve(from, NFT_TOKEN_COST);
     }
-
 }

@@ -19,10 +19,9 @@ contract MyAuthorityContract {
         _myToken.buyToken(msg.sender, msg.value);
     }
 
-    function mintNft() external payable notOwner {
-        bool isAllowanceSpend = _myToken.spendAllowance(msg.sender);
-
-        //mint nft if allowance is spend successfully
+    function mintNft() external notOwner {
+        _myToken.spendAllowance(msg.sender);
+        _myNftContract.mint(msg.sender);
     }
 
     // pre nft minting, token transfer approval
