@@ -14,9 +14,8 @@ async function main() {
   await myAuthorityContract.deployed();
 
   const [, account1] = await ethers.getSigners();
-  const weiValue = BigInt(Math.pow(10, 18));
   
-  await myAuthorityContract.connect(account1).mintToken({value: weiValue});
+  await myToken.connect(account1).mint(account1.address, 50);
   await myAuthorityContract.connect(account1).approveTokenTransfer();
   const event = await myAuthorityContract.connect(account1).mintNft();
   const tokenId = Number(event.value);

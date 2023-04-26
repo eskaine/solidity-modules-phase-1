@@ -19,15 +19,9 @@ contract MyAuthorityContract is IERC721Receiver {
     mapping(address => uint256) private _lastClaimed;
     
     constructor(address myTokenAddress, address myNftContractAddress) {
-        // uint256 x = 30 / uint256(14);
-        // console.log("math", x);
         owner = msg.sender;
         _myToken = MyToken(myTokenAddress);
         _myNftContract = MyNftContract(myNftContractAddress);
-    }
-
-    function mintToken() external payable notOwner {
-        _myToken.buyToken(msg.sender, msg.value);
     }
 
     function mintNft() external notOwner {
@@ -60,7 +54,7 @@ contract MyAuthorityContract is IERC721Receiver {
         uint256 reward = daysOfUnclaimed * numberOfStakedNfts * REWARD_PER_TOKEN;
         _lastClaimed[msg.sender] += daysOfUnclaimed;
 
-        _myToken.mint(msg.sender, reward * (10 ** _myToken.decimals()));
+        _myToken.mint(msg.sender, reward);
     }
 
     // pre nft minting, token transfer approval

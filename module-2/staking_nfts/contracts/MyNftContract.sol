@@ -10,7 +10,6 @@ contract MyNftContract is ERC721 {
     Counters.Counter private _ids;
     uint256 public constant MAX_SUPPLY = 10;
 
-
     constructor() ERC721("MyNftContract", "MNC") {}
 
     function mint(address to) external {
