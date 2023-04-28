@@ -10,3 +10,5 @@ Module 2
 - [Build an NFT contract and integrate it on OpenSea](https://github.com/eskaine/metana-bootcamp/tree/main/module-2/nft_contract)
 - Create an NFT that can be minted with an ERC20 token
 - Staking NFTs
+
+- [Build ERC1155 token with a Frontend](https://github.com/eskaine/metana-bootcamp/tree/main/module-3/erc1155_with_frontend)
