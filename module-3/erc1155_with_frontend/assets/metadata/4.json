@@ -1,0 +1,14 @@
+{
+  "name": "Magic Wand",
+  "image": "https://esk-erc1155.infura-ipfs.io/ipfs/QmfW4DdYu4Qez6bSNgaZh32y7gbELT8P89SHVuy3BVc4gm",
+  "attributes": [
+    {
+      "trait_type": "equipment",
+      "value": "Weapon"
+    },
+    {
+      "trait_type": "weapon_type",
+      "value": "Wand"
+    }
+  ]
+}

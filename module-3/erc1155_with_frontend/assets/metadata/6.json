@@ -1,0 +1,14 @@
+{
+  "name": "Crystal Sword",
+  "image": "https://esk-erc1155.infura-ipfs.io/ipfs/QmVZP1WTG491yhKMLG42pKAMteHvGV6wrKqdHuL3dNueHD",
+  "attributes": [
+    {
+      "trait_type": "equipment",
+      "value": "Weapon"
+    },
+    {
+      "trait_type": "weapon_type",
+      "value": "Sword"
+    }
+  ]
+}

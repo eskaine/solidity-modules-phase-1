@@ -1,0 +1,14 @@
+{
+  "name": "Bow",
+  "image": "https://esk-erc1155.infura-ipfs.io/ipfs/Qmer6HHYQycdgt5NLqWjRTzmPPyCFjTYksN1ZCBJX8BF9Z",
+  "attributes": [
+    {
+      "trait_type": "equipment",
+      "value": "Weapon"
+    },
+    {
+      "trait_type": "weapon_type",
+      "value": "Bow"
+    }
+  ]
+}

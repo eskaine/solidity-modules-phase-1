@@ -1,0 +1,10 @@
+{
+  "name": "Wood",
+  "image": "https://esk-erc1155.infura-ipfs.io/ipfs/QmSxZ1dSsWLF7mHe6CCayRC8uTBQzikwpineDGKNJfYAUU",
+  "attributes": [
+    {
+      "trait_type": "materials",
+      "value": "Wood"
+    }
+  ]
+}
