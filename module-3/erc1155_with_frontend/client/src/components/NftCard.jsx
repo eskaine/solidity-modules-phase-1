@@ -5,7 +5,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { CARD_MAX_WIDTH, CARD_IMAGE_HEIGHT } from '@/utils/constants';
 
 const cardStyle = {
   display: 'flex',
@@ -34,7 +33,6 @@ const contentStyle = {
 };
 
 export default function NftCard({name, image, requires}) {
-  console.log({requires});
   return (
     <Card sx={cardStyle}>
       <CardMedia

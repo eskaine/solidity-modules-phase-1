@@ -28,6 +28,7 @@ export default function Home() {
           <div className={styles.grid}>
             {collection.map((item, i) => (
               <NftCard
+                key={i}
                 name={item.name}
                 image={item.image}
                 requires={parsedRequiredItems(requiredItems[i])}
