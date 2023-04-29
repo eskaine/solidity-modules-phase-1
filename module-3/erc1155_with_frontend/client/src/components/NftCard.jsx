@@ -32,7 +32,7 @@ const contentStyle = {
   textAlign: 'center'
 };
 
-export default function NftCard({name, image, requires}) {
+export default function NftCard({name, image, requires, amount}) {
   return (
     <Card sx={cardStyle}>
       <CardMedia
@@ -48,7 +48,7 @@ export default function NftCard({name, image, requires}) {
           {requires.length === 0 ? "Free" : `${requires.join(', ')}`}
         </Typography>
         <Typography sx={{ fontSize: 18 }}>
-          0 Owned
+          {amount} Owned
         </Typography>
       </CardContent>
       <CardActions>

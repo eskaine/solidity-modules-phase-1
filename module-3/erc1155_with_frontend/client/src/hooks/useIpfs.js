@@ -33,5 +33,6 @@ export const useIpfs = (collectionLength) => {
   useEffect(() => {
     fetchCollection(collectionLength);
   }, []);
+  
   return collection;
 };
