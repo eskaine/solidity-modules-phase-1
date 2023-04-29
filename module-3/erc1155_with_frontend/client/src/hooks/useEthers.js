@@ -18,9 +18,14 @@ export const useEthers = (account) => {
   }
 
   async function fetchPlayerData() {
-    const contract = getContract();
-    const items = await contract.getPlayerAllItems();
-    setPlayerData(items.map((item) => Number(item)));
+    try {
+      const contract = getContract();
+      const addresses = new Array(COLLECTION_LENGTH).fill(account);
+      const items = await contract.getPlayerAllItems(addresses);
+      setPlayerData(items.map((item) => Number(item)));
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   useEffect(() => {
