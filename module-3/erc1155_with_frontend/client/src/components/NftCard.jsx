@@ -33,7 +33,7 @@ const contentStyle = {
   textAlign: "center",
 };
 
-export default function NftCard({ account, metadata, mintHandler }) {
+export default function NftCard({ account, metadata, mintHandler, burnHandler }) {
   const { id, name, image, requires, amount } = metadata;
 
   return (
@@ -60,8 +60,8 @@ export default function NftCard({ account, metadata, mintHandler }) {
             {id <= 2 ? "Mint" : "Forge"}
           </Button>
         )}
-        <Button variant="outlined" size="medium">
-          OpenSea
+        <Button variant="contained" size="medium" color={id <= 2 ? "primary" : "error"} onClick={() => id <= 2 ? () => {} : burnHandler(id)}>
+        {id <= 2 ? "Trade" : "Burn"}
         </Button>
       </CardActions>
     </Card>

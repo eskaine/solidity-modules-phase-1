@@ -26,6 +26,10 @@ contract GameCollection is ERC1155 {
         return items;
     }
 
+    function burn(uint256 id, uint256 amount) external notOwner {
+        _burn(msg.sender, id, amount);
+    }
+
     function burnBatch(address from, uint256[] calldata ids, uint256[] calldata amount) external notOwner {
         _burnBatch(from, ids, amount);
     }

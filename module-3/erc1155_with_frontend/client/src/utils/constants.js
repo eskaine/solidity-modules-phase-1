@@ -1,6 +1,12 @@
 export const COLLECTION_LENGTH = 7;
-export const INFURA_API = 'https://esk-erc1155.infura-ipfs.io/ipfs/Qma7FEp5pG3my56RyAjsVjEBs6QAaXXEStusydhxkJmiGR/metadata/';
-export const FORGER_ADDRESS = '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9';
-export const COLLECTION_ADDRESS = '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9';
+export const INFURA_API = "https://esk-erc1155.infura-ipfs.io/ipfs/Qma7FEp5pG3my56RyAjsVjEBs6QAaXXEStusydhxkJmiGR/metadata/";
+export const FORGER_ADDRESS = "0x0165878A594ca255338adfa4d48449f69242Eb8F";
+export const COLLECTION_ADDRESS = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707";
 export const COOLDOWN = 60000;
 export const COOLDOWN_TICK = 1000;
+
+// Notification message
+export const MINT_SUCCESS_MSG = "Item minted successfully!";
+export const MINT_ERROR_MSG = "Not enough items to mint!";
+export const BURN_SUCCESS_MSG = "Item burned successfully!";
+export const BURN_ERROR_MSG = "Failure to burn item!";

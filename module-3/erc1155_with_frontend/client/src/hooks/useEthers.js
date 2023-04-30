@@ -41,11 +41,24 @@ export const useEthers = (account) => {
       }
   }
 
+  async function burnItem(id) {
+    try {
+        const collectionContract = getContract(COLLECTION_ADDRESS, gameCollectionAbi);
+        const tx = await collectionContract.burn(id, 1);
+        await tx.wait();
+        await fetchPlayerData();
+
+        return true
+      } catch (error) {
+        return false;
+      }
+  }
+
   useEffect(() => {
     if (account) {
       fetchPlayerData();
     }
   }, [account]);
 
-  return { itemData, forgeItem };
+  return { itemData, forgeItem, burnItem };
 };

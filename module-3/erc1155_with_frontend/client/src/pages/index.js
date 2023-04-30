@@ -13,6 +13,8 @@ import { useNotification } from "@/hooks/useNotification";
 import { useCooldown } from "@/hooks/useCooldown";
 import { flexCenterStyle } from "@/styles/styles";
 import { COLLECTION_LENGTH } from "@/utils/constants";
+import { MINT_SUCCESS_MSG, MINT_ERROR_MSG } from "@/utils/constants";
+import { BURN_SUCCESS_MSG, BURN_ERROR_MSG } from "@/utils/constants";
 
 const mainStyle = {
   height: "100vh",
@@ -23,24 +25,37 @@ const mainStyle = {
 
 export default function Home() {
   const collection = useIpfs(COLLECTION_LENGTH);
-  const { isAlert, setAlert, isSuccess, setSuccess } = useNotification();
+  const { isAlert, setAlert, alertMessage, setMessage, isSuccess, setSuccess } = useNotification();
   const { connect, account } = useMetaMask();
-  const { itemData, forgeItem } = useEthers(account);
-  const { isRunning, cooldown, startCooldown, cdAlert, setCooldownAlert } = useCooldown();
+  const { itemData, forgeItem, burnItem } = useEthers(account);
+  const { isRunning, cooldown, startCooldown, cdAlert, setCooldownAlert } =
+    useCooldown();
 
   async function mintHandler(id) {
     if (!isRunning) {
       const res = await forgeItem(id);
+      setMessage({
+        success: MINT_SUCCESS_MSG,
+        error: MINT_ERROR_MSG
+      });
       setSuccess(res);
       setAlert(true);
       if (res) {
-    console.log('run x');
-
-    startCooldown();
+        startCooldown();
       }
     } else {
       setCooldownAlert(true);
     }
+  }
+
+  async function burnHandler(id) {
+    const res = await burnItem(id);
+    setMessage({
+      success: BURN_SUCCESS_MSG,
+      error: BURN_ERROR_MSG
+    });
+    setSuccess(res);
+    setAlert(true);
   }
 
   return (
@@ -58,6 +73,7 @@ export default function Home() {
             <Notification
               isAlert={isAlert}
               isSuccess={isSuccess}
+              alertMessages={alertMessage}
               alertCallback={() => setAlert(false)}
             />
             <CooldownAlert
@@ -70,6 +86,7 @@ export default function Home() {
               collection={collection}
               itemData={itemData}
               mintHandler={mintHandler}
+              burnHandler={burnHandler}
             />
           </Box>
 

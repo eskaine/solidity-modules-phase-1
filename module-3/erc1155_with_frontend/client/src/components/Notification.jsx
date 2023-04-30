@@ -1,6 +1,6 @@
 import { Alert, Snackbar } from "@mui/material";
 
-export default function Notification({ isAlert, isSuccess, alertCallback }) {
+export default function Notification({ isAlert, isSuccess, alertMessages, alertCallback }) {
   return (
     <Snackbar
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -9,9 +9,9 @@ export default function Notification({ isAlert, isSuccess, alertCallback }) {
       onClose={alertCallback}
     >
       {isSuccess ? (
-        <Alert severity="success">Item minted successfully!</Alert>
+        <Alert severity="success">{alertMessages["success"]}</Alert>
       ) : (
-        <Alert severity="error">Not enough items to mint!</Alert>
+        <Alert severity="error">{alertMessages["error"]}</Alert>
       )}
     </Snackbar>
   );

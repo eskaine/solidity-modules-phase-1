@@ -9,7 +9,7 @@ const gridStyle = {
     gap: "30px"
 }
 
-export default function Collection({account, collection, itemData, mintHandler}) {
+export default function Collection({account, collection, itemData, mintHandler, burnHandler}) {
   function createMetadata(item, i) {
     const {name, image, requires} = item;
     const requiredItems = requires.map((item) => collection[item].name);
@@ -31,6 +31,7 @@ export default function Collection({account, collection, itemData, mintHandler})
           account={account}
           metadata={createMetadata(item, i)}
           mintHandler={mintHandler}
+          burnHandler={burnHandler}
         />
       ))}
     </Box>
