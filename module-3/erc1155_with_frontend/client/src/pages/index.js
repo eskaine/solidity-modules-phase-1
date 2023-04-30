@@ -2,20 +2,25 @@ import Head from "next/head";
 import Navbar from "@/layouts/Navbar";
 import Footer from "@/layouts/Footer";
 import styles from "@/styles/Home.module.css";
-import NftCard from "@/components/NftCard";
+import Collection from "@/components/Collection";
+import Notification from "@/components/Notification";
+
 import { useIpfs } from "@/hooks/useIpfs";
 import { useWallet } from "@/hooks/useWallet";
 import { useEthers } from "@/hooks/useEthers";
-import { COLLECTION_LENGTH, ITEM_REQUIREMENTS } from "@/utils/constants";
+import { useNotification } from "@/hooks/useNotification";
+import { COLLECTION_LENGTH } from "@/utils/constants";
 
 export default function Home() {
-  const requiredItems = ITEM_REQUIREMENTS;
   const collection = useIpfs(COLLECTION_LENGTH);
+  const { isAlert, setAlert, isSuccess, setSuccess } = useNotification();
   const { account, connectMetamask } = useWallet();
-  const { playerData } = useEthers(account);
+  const { itemData, mintItem } = useEthers(account);
 
-  function parsedRequiredItems(items) {
-    return items.map((item) => collection[item].name);
+  async function mintHandler(id) {
+    const res = await mintItem(id);
+    setSuccess(res);
+    setAlert(true);
   }
 
   return (
@@ -29,17 +34,8 @@ export default function Home() {
         <Navbar account={account} connect={connectMetamask} />
 
         <div className={styles.content}>
-          <div className={styles.grid}>
-            {collection.map((item, i) => (
-              <NftCard
-                key={i}
-                name={item.name}
-                image={item.image}
-                requires={parsedRequiredItems(requiredItems[i])}
-                amount={playerData[i]}
-              />
-            ))}
-          </div>
+          <Notification isAlert={isAlert} isSuccess={isSuccess} alertCallback={() => setAlert(false)} />
+          <Collection collection={collection} itemData={itemData} mintHandler={mintHandler} />
         </div>
 
         <Footer />

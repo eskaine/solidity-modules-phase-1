@@ -32,7 +32,9 @@ const contentStyle = {
   textAlign: 'center'
 };
 
-export default function NftCard({name, image, requires, amount}) {
+export default function NftCard({metadata, mintHandler}) {
+  const {id, name, image, requires, amount} = metadata;
+
   return (
     <Card sx={cardStyle}>
       <CardMedia
@@ -52,7 +54,7 @@ export default function NftCard({name, image, requires, amount}) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Mint</Button>
+        <Button size="small" onClick={() => mintHandler(id)}>Mint</Button>
         <Button size="small">OpenSea</Button>
       </CardActions>
     </Card>

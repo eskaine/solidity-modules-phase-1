@@ -5,11 +5,11 @@ import { gameItemAbi } from "@/abis/gameItemAbi";
 
 export const useEthers = (account) => {
   const newArr = new Array().fill(COLLECTION_LENGTH);
-  const [playerData, setPlayerData] = useState(newArr);
+  const [itemData, setItemData] = useState(newArr);
   const [contractAddress] = useState(CONTRACT_ADDRESS);
 
   function getContract() {
-    if (window.ethereum) {
+    if (account) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
@@ -17,22 +17,34 @@ export const useEthers = (account) => {
     }
   }
 
-  async function fetchPlayerData() {
+  async function fetchPlayerData(contract) {
     try {
-      const contract = getContract();
       const addresses = new Array(COLLECTION_LENGTH).fill(account);
       const items = await contract.getPlayerAllItems(addresses);
-      setPlayerData(items.map((item) => Number(item)));
+      setItemData(items.map((item) => Number(item)));
     } catch (error) {
       console.error(error);
     }
   }
 
+  async function mintItem(id) {
+    try {
+        const contract = getContract();
+        const tx = await contract.mintItem(id);
+        await tx.wait();
+        await fetchPlayerData(contract);
+
+        return true;
+      } catch (error) {
+        return false;
+      }
+  }
+
   useEffect(() => {
     if (account) {
-      fetchPlayerData();
+      fetchPlayerData(getContract());
     }
   }, [account]);
 
-  return { playerData };
+  return { itemData, mintItem };
 };
