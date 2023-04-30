@@ -12,13 +12,14 @@ const cardStyle = {
   alignItems: 'center',
   maxWidth: 320,
   paddingTop: 3,
+  paddingBottom: 2,
   border: '3px solid #34495E',
   borderRadius: 5
 };
 
 const mediaStyle = {
-  height: 160,
-  width: 160,
+  height: 150,
+  width: 150,
 };
 
 const labelStyle = {
@@ -32,7 +33,7 @@ const contentStyle = {
   textAlign: 'center'
 };
 
-export default function NftCard({metadata, mintHandler}) {
+export default function NftCard({account, metadata, mintHandler}) {
   const {id, name, image, requires, amount} = metadata;
 
   return (
@@ -49,13 +50,15 @@ export default function NftCard({metadata, mintHandler}) {
         <Typography sx={{ fontSize: 14 }}>
           {requires.length === 0 ? "Free" : `${requires.join(', ')}`}
         </Typography>
-        <Typography sx={{ fontSize: 18 }}>
+        {account ? <Typography sx={{ fontSize: 18 }}>
           {amount} Owned
-        </Typography>
+        </Typography> : <Typography sx={{ fontSize: 18 }}>
+          &nbsp;
+        </Typography>}
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => mintHandler(id)}>Mint</Button>
-        <Button size="small">OpenSea</Button>
+        {account && <Button variant="contained" size="medium" onClick={() => mintHandler(id)}>Mint</Button>}
+        <Button variant="outlined" size="medium">OpenSea</Button>
       </CardActions>
     </Card>
   );

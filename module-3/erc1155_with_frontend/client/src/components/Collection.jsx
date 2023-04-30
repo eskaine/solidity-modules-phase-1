@@ -1,7 +1,15 @@
 import NftCard from "@/components/NftCard";
-import styles from "@/styles/Home.module.css";
+import { Box } from "@mui/material";
 
-export default function Collection({collection, itemData, mintHandler}) {
+const gridStyle = {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(20%, auto))",
+    width: "var(--max-width)",
+    maxWidth: "100%",
+    gap: "30px"
+}
+
+export default function Collection({account, collection, itemData, mintHandler}) {
   function createMetadata(item, i) {
     const {name, image, requires} = item;
     const requiredItems = requires.map((item) => collection[item].name);
@@ -16,14 +24,15 @@ export default function Collection({collection, itemData, mintHandler}) {
   }
 
   return (
-    <div className={styles.grid}>
+    <Box sx={gridStyle}>
       {collection.map((item, i) => (
         <NftCard
           key={i}
+          account={account}
           metadata={createMetadata(item, i)}
           mintHandler={mintHandler}
         />
       ))}
-    </div>
+    </Box>
   );
 }

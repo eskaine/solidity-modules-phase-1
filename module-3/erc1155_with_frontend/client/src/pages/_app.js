@@ -1,19 +1,19 @@
+import React from "react";
+import { MetaMaskProvider } from "metamask-react";
 import "@/styles/globals.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { defaultStyle } from "@/styles/styles";
 
-const defaultTheme = createTheme({
-  typography: {
-    button: {
-      textTransform: "none",
-      fontSize: 16,
-    },
-  },
-});
+const defaultTheme = createTheme(defaultStyle);
 
 export default function App({ Component, pageProps }) {
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <React.StrictMode>
+      <MetaMaskProvider>
+        <ThemeProvider theme={defaultTheme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </MetaMaskProvider>
+    </React.StrictMode>
   );
 }
