@@ -15,8 +15,8 @@ contract MyAuthorityContract {
         _myNftContract = MyNftContract(myNftContractAddress);
     }
 
-    function mintToken() external payable notOwner {
-        _myToken.buyToken(msg.sender, msg.value);
+    function mintToken() external notOwner {
+        _myToken.mintToken(msg.sender);
     }
 
     function mintNft() external notOwner {

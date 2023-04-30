@@ -50,8 +50,11 @@ contract MyAuthorityContract is IERC721Receiver {
         require(numberOfStakedNfts > 0, "No NFTs have been staked!");
 
         uint256 timeLapsed = block.timestamp - _lastClaimed[msg.sender];
+        // reward is given out for every 24 hrs instead of proportional
         uint256 daysOfUnclaimed = timeLapsed / uint256(TIME_PER_DAY);
         uint256 reward = daysOfUnclaimed * numberOfStakedNfts * REWARD_PER_TOKEN;
+        // last claim is set to claimed number of days instead current timestamp
+        // as leftover or unclaimed time is not factored in
         _lastClaimed[msg.sender] += daysOfUnclaimed;
 
         _myToken.mint(msg.sender, reward);
