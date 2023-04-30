@@ -1,11 +1,15 @@
 const hre = require("hardhat");
 
 async function main() {
-  const GameItem = await hre.ethers.getContractFactory("GameItem");
-  const gameItem = await GameItem.deploy();
-  await gameItem.deployed();
+  const GameCollection = await hre.ethers.getContractFactory("GameCollection");
+  const gameCollection = await GameCollection.deploy();
+  await gameCollection.deployed();
+  console.log(`Deployed to: ${gameCollection.address}`);
 
-  console.log(`Deployed to: ${gameItem.address}`);
+  const Forger = await hre.ethers.getContractFactory("Forger");
+  const forger = await Forger.deploy(gameCollection.address);
+  await forger.deployed();
+  console.log(`Deployed to: ${forger.address}`);
 }
 
 main().catch((error) => {

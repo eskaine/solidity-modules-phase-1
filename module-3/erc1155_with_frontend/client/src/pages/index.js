@@ -1,19 +1,18 @@
 import Head from "next/head";
 import Navbar from "@/layouts/Navbar";
 import Footer from "@/layouts/Footer";
+import { Box } from "@mui/material";
 import Collection from "@/components/Collection";
 import Notification from "@/components/Notification";
+import CooldownAlert from "@/components/CooldownAlert";
 
-import { useIpfs } from "@/hooks/useIpfs";
 import { useMetaMask } from "metamask-react";
+import { useIpfs } from "@/hooks/useIpfs";
 import { useEthers } from "@/hooks/useEthers";
 import { useNotification } from "@/hooks/useNotification";
 import { useCooldown } from "@/hooks/useCooldown";
-import { COLLECTION_LENGTH } from "@/utils/constants";
-import CooldownAlert from "@/components/CooldownAlert";
-import { Container, Box } from "@mui/material";
-
 import { flexCenterStyle } from "@/styles/styles";
+import { COLLECTION_LENGTH } from "@/utils/constants";
 
 const mainStyle = {
   height: "100vh",
@@ -26,17 +25,21 @@ export default function Home() {
   const collection = useIpfs(COLLECTION_LENGTH);
   const { isAlert, setAlert, isSuccess, setSuccess } = useNotification();
   const { connect, account } = useMetaMask();
-  const { itemData, mintItem } = useEthers(account);
-  const { cooldown, startCooldown, cdAlert, setCooldownAlert } = useCooldown();
+  const { itemData, forgeItem } = useEthers(account);
+  const { isRunning, cooldown, startCooldown, cdAlert, setCooldownAlert } = useCooldown();
 
   async function mintHandler(id) {
-    if (!cooldown) {
-      const res = await mintItem(id);
+    if (!isRunning) {
+      const res = await forgeItem(id);
       setSuccess(res);
       setAlert(true);
       if (res) {
-        startCooldown();
+    console.log('run x');
+
+    startCooldown();
       }
+    } else {
+      setCooldownAlert(true);
     }
   }
 
