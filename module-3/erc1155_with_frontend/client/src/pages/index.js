@@ -5,8 +5,10 @@ import { Box } from "@mui/material";
 import Collection from "@/components/Collection";
 import Notification from "@/components/Notification";
 import CooldownAlert from "@/components/CooldownAlert";
+import SelectionModal from "@/components/SelectionModal";
 
 import { useMetaMask } from "metamask-react";
+import { useModal } from "@/hooks/useModal";
 import { useIpfs } from "@/hooks/useIpfs";
 import { useEthers } from "@/hooks/useEthers";
 import { useNotification } from "@/hooks/useNotification";
@@ -15,6 +17,7 @@ import { flexCenterStyle } from "@/styles/styles";
 import { COLLECTION_LENGTH } from "@/utils/constants";
 import { MINT_SUCCESS_MSG, MINT_ERROR_MSG } from "@/utils/constants";
 import { BURN_SUCCESS_MSG, BURN_ERROR_MSG } from "@/utils/constants";
+import { TRADE_SUCCESS_MSG, TRADE_ERROR_MSG } from "@/utils/constants";
 
 const mainStyle = {
   height: "100vh",
@@ -25,9 +28,11 @@ const mainStyle = {
 
 export default function Home() {
   const collection = useIpfs(COLLECTION_LENGTH);
-  const { isAlert, setAlert, alertMessage, setMessage, isSuccess, setSuccess } = useNotification();
+  const { isAlert, setAlert, alertMessage, setMessage, isSuccess, setSuccess } =
+    useNotification();
   const { connect, account } = useMetaMask();
-  const { itemData, forgeItem, burnItem } = useEthers(account);
+  const { open, modalData, handleOpen, handleClose } = useModal();
+  const { itemData, forgeItem, burnItem, tradeItem } = useEthers(account);
   const { isRunning, cooldown, startCooldown, cdAlert, setCooldownAlert } =
     useCooldown();
 
@@ -36,7 +41,7 @@ export default function Home() {
       const res = await forgeItem(id);
       setMessage({
         success: MINT_SUCCESS_MSG,
-        error: MINT_ERROR_MSG
+        error: MINT_ERROR_MSG,
       });
       setSuccess(res);
       setAlert(true);
@@ -52,7 +57,17 @@ export default function Home() {
     const res = await burnItem(id);
     setMessage({
       success: BURN_SUCCESS_MSG,
-      error: BURN_ERROR_MSG
+      error: BURN_ERROR_MSG,
+    });
+    setSuccess(res);
+    setAlert(true);
+  }
+
+  async function tradeHandler(id, tradeWithId) {
+    const res = await tradeItem(id, tradeWithId);
+    setMessage({
+      success: TRADE_SUCCESS_MSG,
+      error: TRADE_ERROR_MSG,
     });
     setSuccess(res);
     setAlert(true);
@@ -67,6 +82,13 @@ export default function Home() {
       </Head>
       <main>
         <Box sx={mainStyle}>
+          <SelectionModal
+            open={open}
+            modalData={modalData}
+            selection={{collection, itemData}}
+            handleClose={handleClose}
+            callback={tradeHandler}
+          />
           <Navbar account={account} connect={connect} />
 
           <Box sx={flexCenterStyle}>
@@ -85,8 +107,7 @@ export default function Home() {
               account={account}
               collection={collection}
               itemData={itemData}
-              mintHandler={mintHandler}
-              burnHandler={burnHandler}
+              handlers={{mintHandler, burnHandler, openModalHandler: handleOpen}}
             />
           </Box>
 

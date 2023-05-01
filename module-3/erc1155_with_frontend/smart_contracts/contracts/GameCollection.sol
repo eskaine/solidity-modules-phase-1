@@ -14,7 +14,7 @@ contract GameCollection is ERC1155 {
     }
 
     // to get all items for a single address
-    function getPlayerAllItems(address[] calldata addresses) external view notOwner returns(uint256[] memory) {
+    function getPlayerAllItems(address[] calldata addresses) external view notContractOwner returns(uint256[] memory) {
         for (uint i=0; i<addresses.length; i++) {
             if(addresses[i] != msg.sender) {
                 // prevents user from fetching data of other users
@@ -26,23 +26,28 @@ contract GameCollection is ERC1155 {
         return items;
     }
 
-    function burn(uint256 id, uint256 amount) external notOwner {
-        _burn(msg.sender, id, amount);
+    function burn(address from, uint256 id, uint256 amount) external itemOwner(from) notContractOwner {
+        _burn(from, id, amount);
     }
 
-    function burnBatch(address from, uint256[] calldata ids, uint256[] calldata amount) external notOwner {
+    function burnBatch(address from, uint256[] calldata ids, uint256[] calldata amount) external itemOwner(from) notContractOwner {
         _burnBatch(from, ids, amount);
     }
 
-    function mint(address from, uint256 id, uint256 amount) external notOwner {
-        _mint(from, id, amount, "");
+    function mint(address to, uint256 id, uint256 amount) external itemOwner(to) notContractOwner {
+        _mint(to, id, amount, "");
     }
 
     function uri(uint256 id) public view override returns (string memory) {
         return string(abi.encodePacked(_uri, Strings.toString(id), '.json'));
     }
 
-    modifier notOwner() {
+    modifier itemOwner(address itemOwnerAddress) {
+        require(itemOwnerAddress == tx.origin, "You are not item owner!");
+        _;
+    }
+
+    modifier notContractOwner {
         require(msg.sender != owner, "Owner cannot call this function!");
         _;
     }

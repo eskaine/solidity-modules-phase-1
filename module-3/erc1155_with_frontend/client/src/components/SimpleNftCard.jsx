@@ -10,21 +10,22 @@ const cardStyle = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  maxWidth: 320,
+  justifyContent: "space-between",
+  width: 150,
   paddingTop: 3,
   paddingBottom: 2,
-  border: "3px solid #34495E",
+  border: "2px solid #34495E",
   borderRadius: 5,
 };
 
 const mediaStyle = {
-  height: 150,
-  width: 150,
+  height: 60,
+  width: 60,
 };
 
 const labelStyle = {
   fontFamily: "Ubuntu",
-  fontSize: 24,
+  fontSize: 16,
   fontWeight: "bold",
 };
 
@@ -33,9 +34,8 @@ const contentStyle = {
   textAlign: "center",
 };
 
-export default function NftCard({ account, metadata, handlers }) {
-  const { id, name, image, requires, amount } = metadata;
-  const { mintHandler, burnHandler, openModalHandler } = handlers;
+export default function SimpleNftCard({ metadata, callback }) {
+  const { name, image, requires, amount } = metadata;
 
   return (
     <Card sx={cardStyle}>
@@ -45,25 +45,10 @@ export default function NftCard({ account, metadata, handlers }) {
         <Typography sx={{ fontSize: 14 }}>
           {requires.length === 0 ? "Free" : `${requires.join(", ")}`}
         </Typography>
-        {account ? (
-          <Typography sx={{ fontSize: 18 }}>{amount} Owned</Typography>
-        ) : (
-          <Typography sx={{ fontSize: 18 }}>&nbsp;</Typography>
-        )}
+        <Typography sx={{ fontSize: 16 }}>{amount} Owned</Typography>
       </CardContent>
       <CardActions>
-        {account && (
-          <Button
-            variant="contained"
-            size="medium"
-            onClick={() => mintHandler(id)}
-          >
-            {id <= 2 ? "Mint" : "Forge"}
-          </Button>
-        )}
-        <Button variant="contained" size="medium" color={id <= 2 ? "primary" : "error"} onClick={() => id <= 2 ? openModalHandler(id) : burnHandler(id)}>
-        {id <= 2 ? "Trade" : "Burn"}
-        </Button>
+        <Button variant="outlined" size="small" onClick={callback}>Select</Button>
       </CardActions>
     </Card>
   );

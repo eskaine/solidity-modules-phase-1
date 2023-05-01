@@ -14,7 +14,6 @@ contract Forger {
     event ItemMinted(address _to, uint256 id);
     event ItemTraded(address _to, uint256 id, uint256 burnId);
 
-
     constructor(address collectionAddress) {
         owner = msg.sender;
         _gameCollection = GameCollection(collectionAddress);
@@ -25,14 +24,10 @@ contract Forger {
     function tradeItem(uint256 id, uint256 burnId) external notOwner {
         require(_tradableItems[id], "Item is not tradable!");
 
-        (bool success,) = address(_gameCollection).delegatecall(
-            abi.encodeWithSelector(GameCollection.burn.selector, burnId, itemRate)
-        );
+        _gameCollection.burn(msg.sender, burnId, itemRate);
+        _gameCollection.mint(msg.sender, id, itemRate);
 
-        if(success) {
-            _gameCollection.mint(msg.sender, id, itemRate);
-            emit ItemTraded(msg.sender, id, burnId);
-        }
+        emit ItemTraded(msg.sender, id, burnId);
     }
 
     function forgeItem(uint256 id) external notOwner {

@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { FORGER_ADDRESS, COLLECTION_ADDRESS, COLLECTION_LENGTH } from "@/utils/constants";
+import {
+  FORGER_ADDRESS,
+  COLLECTION_ADDRESS,
+  COLLECTION_LENGTH,
+} from "@/utils/constants";
 import { gameCollectionAbi } from "@/abis/gameCollectionAbi";
 import { forgerAbi } from "@/abis/forgerAbi";
 
@@ -19,7 +23,10 @@ export const useEthers = (account) => {
 
   async function fetchPlayerData() {
     try {
-      const collectionContract = getContract(COLLECTION_ADDRESS, gameCollectionAbi);
+      const collectionContract = getContract(
+        COLLECTION_ADDRESS,
+        gameCollectionAbi
+      );
       const addresses = new Array(COLLECTION_LENGTH).fill(account);
       const items = await collectionContract.getPlayerAllItems(addresses);
       setItemData(items.map((item) => Number(item)));
@@ -30,28 +37,44 @@ export const useEthers = (account) => {
 
   async function forgeItem(id) {
     try {
-        const forgerContract = getContract(FORGER_ADDRESS, forgerAbi);
-        const tx = await forgerContract.forgeItem(id);
-        await tx.wait();
-        await fetchPlayerData();
+      const forgerContract = getContract(FORGER_ADDRESS, forgerAbi);
+      const tx = await forgerContract.forgeItem(id);
+      await tx.wait();
+      await fetchPlayerData();
 
-        return true;
-      } catch (error) {
-        return false;
-      }
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   async function burnItem(id) {
     try {
-        const collectionContract = getContract(COLLECTION_ADDRESS, gameCollectionAbi);
-        const tx = await collectionContract.burn(id, 1);
-        await tx.wait();
-        await fetchPlayerData();
+      const collectionContract = getContract(
+        COLLECTION_ADDRESS,
+        gameCollectionAbi
+      );
+      const tx = await collectionContract.burn(account, id, 1);
+      await tx.wait();
+      await fetchPlayerData();
 
-        return true
-      } catch (error) {
-        return false;
-      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async function tradeItem(id, tradeWithId) {
+    try {
+      const forgerContract = getContract(FORGER_ADDRESS, forgerAbi);
+      const tx = await forgerContract.tradeItem(id, tradeWithId);
+      await tx.wait();
+      await fetchPlayerData();
+
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   useEffect(() => {
@@ -60,5 +83,5 @@ export const useEthers = (account) => {
     }
   }, [account]);
 
-  return { itemData, forgeItem, burnItem };
+  return { itemData, forgeItem, burnItem, tradeItem };
 };

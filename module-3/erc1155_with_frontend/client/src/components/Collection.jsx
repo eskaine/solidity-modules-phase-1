@@ -1,27 +1,22 @@
 import NftCard from "@/components/NftCard";
 import { Box } from "@mui/material";
+import { useCollection } from "@/hooks/useCollection";
 
 const gridStyle = {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(20%, auto))",
-    width: "var(--max-width)",
-    maxWidth: "100%",
-    gap: "30px"
-}
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fill, minmax(20%, auto))",
+  width: "var(--max-width)",
+  maxWidth: "100%",
+  gap: "30px",
+};
 
-export default function Collection({account, collection, itemData, mintHandler, burnHandler}) {
-  function createMetadata(item, i) {
-    const {name, image, requires} = item;
-    const requiredItems = requires.map((item) => collection[item].name);
-
-    return {
-        id: i,
-        name,
-        image,
-        requires: requiredItems,
-        amount: itemData[i]
-    };
-  }
+export default function Collection({
+  account,
+  collection,
+  itemData,
+  handlers,
+}) {
+  const { createMetadata } = useCollection(collection, itemData);
 
   return (
     <Box sx={gridStyle}>
@@ -30,8 +25,7 @@ export default function Collection({account, collection, itemData, mintHandler, 
           key={i}
           account={account}
           metadata={createMetadata(item, i)}
-          mintHandler={mintHandler}
-          burnHandler={burnHandler}
+          handlers={handlers}
         />
       ))}
     </Box>
