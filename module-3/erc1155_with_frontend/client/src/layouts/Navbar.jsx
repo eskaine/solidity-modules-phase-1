@@ -1,8 +1,10 @@
 import Typography from "@mui/material/Typography";
-import { blue, green, grey } from "@mui/material/colors";
+import { blue, grey } from "@mui/material/colors";
+import { Container, Box, Link } from "@mui/material";
 import RoundedButton from "@/components/RoundedButton";
-import { Container, Box } from "@mui/material";
 import { flexCenterStyle } from "@/styles/styles";
+import { useWallet } from "@/hooks/useWallet";
+import { OPENSEA_URL } from "@/utils/constants";
 
 const typoStyle = {
   color: grey[100],
@@ -20,17 +22,40 @@ const navStyle = {
   alignItems: "center",
 };
 
-export default function Navbar({ account, connect }) {
+const infoBoxStyle = {
+  ...flexCenterStyle,
+  gap: "20px",
+};
+
+const linkStyle = {
+  color: "#fff",
+  fontFamily: "Ubuntu",
+  fontSize: 20
+}
+
+export default function Navbar() {
+  const { balance, account, status, connectHandler } = useWallet();
+
   return (
     <Box sx={boxStyle}>
       <Container sx={navStyle}>
         <Typography variant="h5" sx={typoStyle}>
           ERC1155 Game Items
         </Typography>
-        {!account ? (
-          <RoundedButton label="Connect" color="info" callback={connect} />
+        <Link sx={linkStyle} href={OPENSEA_URL + account} target="_blank">View @ Opensea</Link>
+        {status === "connected" ? (
+          <Box sx={infoBoxStyle}>
+            <Typography variant="h6" sx={typoStyle}>
+              {balance} MATIC
+            </Typography>
+            <RoundedButton label={account} color="info" />
+          </Box>
         ) : (
-          <RoundedButton label={account} color="info" />
+          <RoundedButton
+            label="Connect"
+            color="info"
+            callback={connectHandler}
+          />
         )}
       </Container>
     </Box>

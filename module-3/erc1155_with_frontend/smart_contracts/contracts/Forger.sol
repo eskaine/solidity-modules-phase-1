@@ -2,7 +2,6 @@
 pragma solidity ^0.8.9;
 
 import "./GameCollection.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract Forger {
     address public owner;

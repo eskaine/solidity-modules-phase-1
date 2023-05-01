@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
 import {
   FORGER_ADDRESS,
   COLLECTION_ADDRESS,
@@ -7,23 +6,16 @@ import {
 } from "@/utils/constants";
 import { gameCollectionAbi } from "@/abis/gameCollectionAbi";
 import { forgerAbi } from "@/abis/forgerAbi";
+import { useWallet } from "./useWallet";
 
-export const useEthers = (account) => {
-  const newArr = new Array().fill(COLLECTION_LENGTH);
+export const useForger = () => {
+  const {account, getContract} = useWallet();
+  const newArr = new Array(COLLECTION_LENGTH).fill(0);
   const [itemData, setItemData] = useState(newArr);
-
-  function getContract(contractAddress, contractAbi) {
-    if (account) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-
-      return new ethers.Contract(contractAddress, contractAbi, signer);
-    }
-  }
 
   async function fetchPlayerData() {
     try {
-      const collectionContract = getContract(
+      const collectionContract = await getContract(
         COLLECTION_ADDRESS,
         gameCollectionAbi
       );

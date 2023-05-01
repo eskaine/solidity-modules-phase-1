@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useMetaMask } from "metamask-react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -33,7 +34,8 @@ const contentStyle = {
   textAlign: "center",
 };
 
-export default function NftCard({ account, metadata, handlers }) {
+export default function NftCard({ metadata, handlers }) {
+  const { status } = useMetaMask();
   const { id, name, image, requires, amount } = metadata;
   const { mintHandler, burnHandler, openModalHandler } = handlers;
 
@@ -45,14 +47,14 @@ export default function NftCard({ account, metadata, handlers }) {
         <Typography sx={{ fontSize: 14 }}>
           {requires.length === 0 ? "Free" : `${requires.join(", ")}`}
         </Typography>
-        {account ? (
+        {status === "connected" ? (
           <Typography sx={{ fontSize: 18 }}>{amount} Owned</Typography>
         ) : (
           <Typography sx={{ fontSize: 18 }}>&nbsp;</Typography>
         )}
       </CardContent>
-      <CardActions>
-        {account && (
+      {status === "connected" && (
+        <CardActions>
           <Button
             variant="contained"
             size="medium"
@@ -60,11 +62,16 @@ export default function NftCard({ account, metadata, handlers }) {
           >
             {id <= 2 ? "Mint" : "Forge"}
           </Button>
-        )}
-        <Button variant="contained" size="medium" color={id <= 2 ? "primary" : "error"} onClick={() => id <= 2 ? openModalHandler(id) : burnHandler(id)}>
-        {id <= 2 ? "Trade" : "Burn"}
-        </Button>
-      </CardActions>
+          <Button
+            variant="contained"
+            size="medium"
+            color={id <= 2 ? "primary" : "error"}
+            onClick={() => (id <= 2 ? openModalHandler(id) : burnHandler(id))}
+          >
+            {id <= 2 ? "Trade" : "Burn"}
+          </Button>
+        </CardActions>
+      )}
     </Card>
   );
 }

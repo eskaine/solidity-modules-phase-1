@@ -1,6 +1,6 @@
-import NftCard from "@/components/NftCard";
-import { Box } from "@mui/material";
 import { useCollection } from "@/hooks/useCollection";
+import { Box } from "@mui/material";
+import NftCard from "@/components/NftCard";
 
 const gridStyle = {
   display: "grid",
@@ -11,7 +11,6 @@ const gridStyle = {
 };
 
 export default function Collection({
-  account,
   collection,
   itemData,
   handlers,
@@ -23,7 +22,6 @@ export default function Collection({
       {collection.map((item, i) => (
         <NftCard
           key={i}
-          account={account}
           metadata={createMetadata(item, i)}
           handlers={handlers}
         />

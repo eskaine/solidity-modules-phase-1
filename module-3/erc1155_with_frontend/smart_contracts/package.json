@@ -2,10 +2,11 @@
   "name": "token_sale",
   "scripts": {
     "deploy-local": "npx hardhat run --network localhost scripts/deploy.js",
-    "deploy": "npx hardhat run --network goerli scripts/deploy.js"
+    "deploy": "npx hardhat run --network polygon_mumbai scripts/deploy.js"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "@nomicfoundation/hardhat-verify": "^1.0.0",
     "@openzeppelin/contracts": "^4.8.3",
     "dotenv": "^16.0.3",
     "hardhat": "^2.14.0"

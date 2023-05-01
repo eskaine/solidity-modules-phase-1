@@ -1,5 +1,6 @@
-require("@nomicfoundation/hardhat-toolbox");
 require('dotenv').config();
+require("@nomicfoundation/hardhat-toolbox");
+require("@nomiclabs/hardhat-etherscan");
 
 module.exports = {
   solidity: "0.8.17",
@@ -7,12 +8,12 @@ module.exports = {
     hardhat: {
       chainId: 1337,
     },
-    // goerli: {
-    //   url: GOERLI_API,
-    //   accounts: [ACCOUNT]
-    // }
+    polygon_mumbai: {
+      url: process.env.ALCHEMY_API_KEY,
+      accounts: [process.env.PRIVATE_KEY]
+    }
   },
-  // etherscan: {
-  //   apiKey: ETHERSCAN_API_KEY
-  // }
+  etherscan: {
+    apiKey: process.env.POLYGON_API_KEY
+  }
 };

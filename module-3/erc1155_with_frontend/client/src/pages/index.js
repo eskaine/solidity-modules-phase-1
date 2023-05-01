@@ -7,32 +7,29 @@ import Notification from "@/components/Notification";
 import CooldownAlert from "@/components/CooldownAlert";
 import SelectionModal from "@/components/SelectionModal";
 
-import { useMetaMask } from "metamask-react";
 import { useModal } from "@/hooks/useModal";
 import { useIpfs } from "@/hooks/useIpfs";
-import { useEthers } from "@/hooks/useEthers";
+import { useForger } from "@/hooks/useForger";
 import { useNotification } from "@/hooks/useNotification";
 import { useCooldown } from "@/hooks/useCooldown";
-import { flexCenterStyle } from "@/styles/styles";
 import { COLLECTION_LENGTH } from "@/utils/constants";
 import { MINT_SUCCESS_MSG, MINT_ERROR_MSG } from "@/utils/constants";
 import { BURN_SUCCESS_MSG, BURN_ERROR_MSG } from "@/utils/constants";
 import { TRADE_SUCCESS_MSG, TRADE_ERROR_MSG } from "@/utils/constants";
+import { flexCenterStyle } from "@/styles/styles";
 
 const mainStyle = {
   height: "100vh",
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-between",
 };
 
 export default function Home() {
   const collection = useIpfs(COLLECTION_LENGTH);
   const { isAlert, setAlert, alertMessage, setMessage, isSuccess, setSuccess } =
     useNotification();
-  const { connect, account } = useMetaMask();
   const { open, modalData, handleOpen, handleClose } = useModal();
-  const { itemData, forgeItem, burnItem, tradeItem } = useEthers(account);
+  const { itemData, forgeItem, burnItem, tradeItem } = useForger();
   const { isRunning, cooldown, startCooldown, cdAlert, setCooldownAlert } =
     useCooldown();
 
@@ -85,29 +82,31 @@ export default function Home() {
           <SelectionModal
             open={open}
             modalData={modalData}
-            selection={{collection, itemData}}
+            selection={{ collection, itemData }}
             handleClose={handleClose}
             callback={tradeHandler}
           />
-          <Navbar account={account} connect={connect} />
-
+          <Notification
+            isAlert={isAlert}
+            isSuccess={isSuccess}
+            alertMessages={alertMessage}
+            alertCallback={() => setAlert(false)}
+          />
+          <CooldownAlert
+            cooldown={cooldown}
+            isAlert={cdAlert}
+            alertCallback={() => setCooldownAlert(false)}
+          />
+          <Navbar />
           <Box sx={flexCenterStyle}>
-            <Notification
-              isAlert={isAlert}
-              isSuccess={isSuccess}
-              alertMessages={alertMessage}
-              alertCallback={() => setAlert(false)}
-            />
-            <CooldownAlert
-              cooldown={cooldown}
-              isAlert={cdAlert}
-              alertCallback={() => setCooldownAlert(false)}
-            />
             <Collection
-              account={account}
               collection={collection}
               itemData={itemData}
-              handlers={{mintHandler, burnHandler, openModalHandler: handleOpen}}
+              handlers={{
+                mintHandler,
+                burnHandler,
+                openModalHandler: handleOpen,
+              }}
             />
           </Box>
 
