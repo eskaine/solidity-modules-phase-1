@@ -1,5 +1,17 @@
 # Build ERC1155 token with a Frontend
 
+Forging Contract: [Link](https://mumbai.polygonscan.com/address/0x4e972bd4c30976ebbc78ba0d26ba76798c01acd9)
+
+ERC1155 Contract: [Link](https://mumbai.polygonscan.com/address/0xFa4a5B6ADD649eD99c00Cd60Cb5f82978cd018C7)
+
+## Setup Frontend
+
+1. cd client
+2. npm install
+3. add a .env file with "POLYGONSCAN_API_KEY"
+4. run "npm run dev"
+5. Go to your browser at http://localhost:3000
+
 ## ERC1155 Concept - Game Items
 Based on the Deliverables, this ERC1155 contract will be implemented in the form of game items as it will be easier to visualize in this manner.
 - Token 0-2 will be raw materials.
