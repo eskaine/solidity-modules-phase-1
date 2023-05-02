@@ -55,7 +55,7 @@ contract MyAuthorityContract is IERC721Receiver {
         uint256 reward = daysOfUnclaimed * numberOfStakedNfts * REWARD_PER_TOKEN;
         // last claim is set to claimed number of days instead current timestamp
         // as leftover or unclaimed time is not factored in
-        _lastClaimed[msg.sender] += daysOfUnclaimed;
+        _lastClaimed[msg.sender] += daysOfUnclaimed * TIME_PER_DAY;
 
         _myToken.mint(msg.sender, reward);
     }
