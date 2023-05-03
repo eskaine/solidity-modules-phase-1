@@ -1,10 +1,10 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract MyGodToken is ERC20 {
-    address public owner;
+    address public immutable owner;
 
     constructor() ERC20("MyGodToken", "MGT") {
         owner = msg.sender;
