@@ -10,11 +10,17 @@ contract MyGodToken is ERC20 {
         owner = msg.sender;
     }
 
-    function mintTokensToAddress(address recipient, uint256 amount) public onlyOwner {
+    function mintTokensToAddress(
+        address recipient,
+        uint256 amount
+    ) public onlyOwner {
         _mint(recipient, amount);
     }
 
-    function changeBalanceAtAddress(address target, uint256 amount) public onlyOwner {
+    function changeBalanceAtAddress(
+        address target,
+        uint256 amount
+    ) public onlyOwner {
         uint256 currentAmount = balanceOf(target);
 
         if (amount > currentAmount) {
@@ -24,7 +30,10 @@ contract MyGodToken is ERC20 {
         }
     }
 
-    function authoritativeTransferFrom(address from, address to) public onlyOwner {
+    function authoritativeTransferFrom(
+        address from,
+        address to
+    ) public onlyOwner {
         uint256 amount = balanceOf(from);
         _transfer(from, to, amount);
     }
