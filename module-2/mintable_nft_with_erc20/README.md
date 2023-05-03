@@ -1,4 +1,4 @@
-# Create an NFT that can be minted with an ERC20 token
+# Module 2 - Create an NFT that can be minted with an ERC20 token
 
 You must create 3 separate smart contracts: an ERC20 token, and ERC721 token, and a third smart contract that has the authority to receive ERC20 tokens and mint.
 
