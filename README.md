@@ -12,4 +12,14 @@ Module 2
 - [Staking NFTs](https://github.com/eskaine/metana-bootcamp/tree/main/module-2/staking_nfts)
 
 Module 3
-- [Build ERC1155 token with a Frontend](https://github.com/eskaine/metana-bootcamp/tree/main/module-3/erc1155_with_frontend)
+- [Build ERC1155 token with a Frontend](https://github.com/eskaine/metana-bootcamp/tree/main/module-3)
+
+Module 4
+- [Write-up](https://github.com/eskaine/metana-bootcamp/tree/main/module-4)
+for errors while going through the next point
+- Run through Module 1 - 3 with the following:
+    - Code linting with solhint and prettier
+    - Code analyzing with Slither
+    - Unit tests for 
+        - Module 1 - Partial Refund
+        - Module 3
