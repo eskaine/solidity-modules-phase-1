@@ -22,10 +22,10 @@ contract MyAuthorityContract {
     }
 
     function mintNft() external notOwner {
-        uint256 tokenAllowance = _myToken.allowance(address(this), msg.sender);
+        uint256 tokenAllowance = _myToken.allowance(msg.sender, address(this));
         require(tokenAllowance == NFT_TOKEN_COST, "Token withdrawal not approved!");
 
-        _myToken.spendAllowance(msg.sender, tokenAllowance);
+        _myToken.safeTransferFrom(msg.sender, address(this), tokenAllowance);
         _myNftContract.mint(msg.sender);
     }
 
@@ -34,7 +34,7 @@ contract MyAuthorityContract {
         uint256 fromAmount = _myToken.balanceOf(msg.sender);
         require(fromAmount >= NFT_TOKEN_COST, "Not enough tokens!");
 
-        _myToken.approve(msg.sender, NFT_TOKEN_COST);
+        _myToken.approve(msg.sender, address(this), NFT_TOKEN_COST);
     }
 
     modifier notOwner() {

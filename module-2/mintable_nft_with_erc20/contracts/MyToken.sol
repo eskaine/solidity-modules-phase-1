@@ -10,8 +10,8 @@ contract MyToken is ERC20 {
         _mint(to, amount);
     }
 
-    function spendAllowance(address from, uint256 allowance) external {
-        _spendAllowance(msg.sender, from, allowance);
-        _transfer(from, msg.sender, allowance);
+    function approve(address owner, address spender, uint256 amount) external returns (bool) {
+        _approve(owner, spender, amount);
+        return true;
     }
 }
