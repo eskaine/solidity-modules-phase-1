@@ -12,7 +12,7 @@ async function main() {
   const balance = ethers.utils.formatEther(balanceWithDecimals);
   console.log(`Account 1 Token amount: ${balance}`);
 
-  await myToken.withdraw(account2.address);
+  // await myToken.withdraw(account2.address);
 }
 
 main().catch((error) => {
