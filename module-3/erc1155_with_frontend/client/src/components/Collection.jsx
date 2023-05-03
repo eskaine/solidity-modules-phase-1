@@ -11,11 +11,24 @@ const gridStyle = {
 };
 
 export default function Collection({
-  collection,
+  collection, 
   itemData,
   handlers,
 }) {
   const { createMetadata } = useCollection(collection, itemData);
+
+  function checkButton(i) {
+    if(i<= 2) {
+      for (let j = 0; j < itemData.length; j++) {
+        if(j !== i && itemData[j] !== 0) {
+          return false;
+        }
+      }
+      return true;
+    } else {
+      return itemData[i] === 0;
+    }
+  }
 
   return (
     <Box sx={gridStyle}>
@@ -24,6 +37,7 @@ export default function Collection({
           key={i}
           metadata={createMetadata(item, i)}
           handlers={handlers}
+          disableSecondaryButton={checkButton(i)}
         />
       ))}
     </Box>

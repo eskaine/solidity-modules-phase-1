@@ -34,7 +34,7 @@ const contentStyle = {
   textAlign: "center",
 };
 
-export default function NftCard({ metadata, handlers }) {
+export default function NftCard({ metadata, handlers, disableSecondaryButton = true }) {
   const { status } = useMetaMask();
   const { id, name, image, requires, amount } = metadata;
   const { mintHandler, burnHandler, openModalHandler } = handlers;
@@ -55,21 +55,26 @@ export default function NftCard({ metadata, handlers }) {
       </CardContent>
       {status === "connected" && (
         <CardActions>
-          <Button
-            variant="contained"
-            size="medium"
+          <Button variant="contained" size="medium" 
             onClick={() => mintHandler(id)}
-          >
-            {id <= 2 ? "Mint" : "Forge"}
-          </Button>
-          <Button
+          >{id <= 2 ? "Mint" : "Forge"}</Button>
+          {id <= 2 ? (
+            <Button variant="contained" size="medium" color="primary" disabled={disableSecondaryButton}
+              onClick={() => (id <= 2 ? openModalHandler(id) : burnHandler(id))}
+            >Trade</Button>
+          ) : (
+            <Button variant="contained" size="medium" color="error" disabled={disableSecondaryButton}
+              onClick={() => (id <= 2 ? openModalHandler(id) : burnHandler(id))}
+            >Burn</Button>
+          )}
+          {/* <Button
             variant="contained"
             size="medium"
             color={id <= 2 ? "primary" : "error"}
             onClick={() => (id <= 2 ? openModalHandler(id) : burnHandler(id))}
           >
             {id <= 2 ? "Trade" : "Burn"}
-          </Button>
+          </Button> */}
         </CardActions>
       )}
     </Card>
