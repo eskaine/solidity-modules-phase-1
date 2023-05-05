@@ -35,7 +35,15 @@ export const useForger = () => {
       await fetchPlayerData();
 
       return true;
-    } catch (error) {
+    } catch ({error}) {
+      if(error !== undefined) {
+        const [, reason] = error.data.message.split(":");
+        if(typeof Number(reason) === "number") {
+          return  60 - Number(reason);
+        }
+        
+      }
+
       return false;
     }
   }

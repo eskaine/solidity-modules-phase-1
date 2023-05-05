@@ -30,23 +30,20 @@ export default function Home() {
     useNotification();
   const { open, modalData, handleOpen, handleClose } = useModal();
   const { itemData, forgeItem, burnItem, tradeItem } = useForger();
-  const { isRunning, cooldown, startCooldown, cdAlert, setCooldownAlert } =
-    useCooldown();
+  const { cooldown, cdAlert, setCooldownAlert } = useCooldown();
 
   async function mintHandler(id) {
-    if (!isRunning) {
-      const res = await forgeItem(id);
+    const res = await forgeItem(id);
+
+    if (!isNaN(res)) {
+      setCooldownAlert(true, res);
+    } else {
       setMessage({
         success: MINT_SUCCESS_MSG,
         error: MINT_ERROR_MSG,
       });
       setSuccess(res);
       setAlert(true);
-      if (res) {
-        startCooldown();
-      }
-    } else {
-      setCooldownAlert(true);
     }
   }
 

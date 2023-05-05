@@ -53,7 +53,7 @@ export const useWallet = () => {
 
   useEffect(() => {
     getBalance();
-  }, [status]);
+  }, [status, account]);
 
   return { account, status, balance, chainId, getContract, connectHandler };
 };

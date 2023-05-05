@@ -1,7 +1,7 @@
 export const COLLECTION_LENGTH = 7;
 export const INFURA_API = "https://esk-erc1155.infura-ipfs.io/ipfs/Qma7FEp5pG3my56RyAjsVjEBs6QAaXXEStusydhxkJmiGR/metadata/";
-export const FORGER_ADDRESS = "0x4e972Bd4c30976EBBc78bA0d26Ba76798C01aCd9";
-export const COLLECTION_ADDRESS = "0xFa4a5B6ADD649eD99c00Cd60Cb5f82978cd018C7";
+export const FORGER_ADDRESS = "0x215D46F51698424Ed72B1fDe1f1D9703d3Bf18Fa";
+export const COLLECTION_ADDRESS = "0x8494a9469B69F3C4cc690D706f5A22A8aDd87055";
 export const COOLDOWN = 60000;
 export const COOLDOWN_TICK = 1000;
 export const POLYGON_API="https://api-testnet.polygonscan.com/api"; 

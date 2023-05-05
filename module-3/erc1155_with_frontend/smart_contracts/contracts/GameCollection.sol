@@ -8,6 +8,7 @@ contract GameCollection is ERC1155 {
     address public owner;
     string private _uri = 'https://esk-erc1155.infura-ipfs.io/ipfs/Qma7FEp5pG3my56RyAjsVjEBs6QAaXXEStusydhxkJmiGR/metadata/';
     uint256[] public ITEM_COLLECTION = [0, 1, 2, 3, 4, 5, 6];
+    mapping(address => uint256) _lastMintedTime;
 
     constructor() ERC1155("") {
         owner = msg.sender;
@@ -35,6 +36,13 @@ contract GameCollection is ERC1155 {
     }
 
     function mint(address to, uint256 id, uint256 amount) external itemOwner(to) notContractOwner {
+        uint256 elapsedTime = block.timestamp - _lastMintedTime[to];
+        if(id <= 2 && elapsedTime <= 60) {
+            revert(Strings.toString(elapsedTime));
+        } else if(id <= 2 && elapsedTime > 60) {
+            _lastMintedTime[to] = block.timestamp;
+        }
+
         _mint(to, id, amount, "");
     }
 
