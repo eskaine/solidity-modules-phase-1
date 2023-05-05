@@ -29,7 +29,7 @@ export const useWallet = () => {
   }
 
   async function getBalance() {
-    if (account && chainId === MUMBAI_ID_HEX) {
+    if (status == "connected" && chainId === MUMBAI_ID_HEX) {
       const params = `?module=account&action=balance&address=${account}&apikey=${process.env.POLYGONSCAN_API_KEY}`;
       const { status, data } = await axios.get(POLYGON_API + params);
       if (status === 200) {
@@ -49,8 +49,11 @@ export const useWallet = () => {
 
   useEffect(() => {
     switchNetwork();
-    getBalance();
   }, [chainId]);
+
+  useEffect(() => {
+    getBalance();
+  }, [status]);
 
   return { account, status, balance, chainId, getContract, connectHandler };
 };
