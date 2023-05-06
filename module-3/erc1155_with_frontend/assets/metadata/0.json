@@ -1,0 +1,15 @@
+{
+  "name": "Iron Ore",
+  "image": "https://esk-erc1155.infura-ipfs.io/ipfs/QmWgfKhfXzFgeEb7QaEbmMNdNgJpeZm1auEx5uyCmo852M",
+  "requires": [],
+  "attributes": [
+    {
+      "trait_type": "materials",
+      "value": "Ore"
+    },
+    {
+      "trait_type": "metal",
+      "value": "Iron"
+    }
+  ]
+}

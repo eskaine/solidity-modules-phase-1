@@ -1,0 +1,11 @@
+{
+  "name": "Blue Crystal",
+  "image": "https://esk-erc1155.infura-ipfs.io/ipfs/QmbdU99rmDvHdyXkTaojLHizC8M1prveNQoyjByf3ouMTo",
+  "requires": [],
+  "attributes": [
+    {
+      "trait_type": "materials",
+      "value": "Crystal"
+    }
+  ]
+}
