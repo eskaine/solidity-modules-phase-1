@@ -1,16 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract MyNftContract is ERC721 {
+contract MyNftContract is ERC721("MyNftContract", "MNC") {
     using Counters for Counters.Counter;
     Counters.Counter private _ids;
     uint256 public constant MAX_SUPPLY = 10;
-
-    constructor() ERC721("MyNftContract", "MNC") {}
 
     function mint(address to) external {
         require(_ids.current() < MAX_SUPPLY, "Run out of NFTs!");
