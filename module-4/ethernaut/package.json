@@ -3,6 +3,9 @@
   "scripts": {
     "start": "npx hardhat run --network localhost scripts/solutions.js"
   },
+  "dependencies": {
+    "openzeppelin-contracts-06": "npm:@openzeppelin/contracts@3.4.2"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
     "@openzeppelin/contracts": "4.7.3",
