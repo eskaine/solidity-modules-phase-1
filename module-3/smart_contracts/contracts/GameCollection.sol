@@ -13,7 +13,6 @@ contract GameCollection is ERC1155 {
 
     constructor() ERC1155("") {
         owner = msg.sender;
-        
     }
 
     // to get all items for a single address
