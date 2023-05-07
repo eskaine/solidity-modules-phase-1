@@ -1,15 +1,10 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract MyToken is ERC20 {
-    uint256 internal constant NFT_TOKEN_COST = 10000000000000000000;
-
-    event tokenMinted(address buyer, uint256 tokenAmount);
-    event tokenSold(address seller, uint256 tokenAmount);
-
-    constructor() ERC20("MyToken", "MT") {}
+contract MyToken is ERC20("MyToken", "MT") {
+    uint256 internal constant NFT_TOKEN_COST = 1e19;
 
     function mint(address to, uint256 amount) external {
         uint256 amountInDecimals = amount * (10 ** decimals());
@@ -18,7 +13,10 @@ contract MyToken is ERC20 {
 
     function spendAllowance(address from) external {
         uint256 tokenAllowance = allowance(msg.sender, from);
-        require(tokenAllowance == NFT_TOKEN_COST, "Token withdrawal not approved!");
+        require(
+            tokenAllowance == NFT_TOKEN_COST,
+            "Token withdrawal not approved!"
+        );
 
         _spendAllowance(msg.sender, from, tokenAllowance);
         _transfer(from, msg.sender, tokenAllowance);
