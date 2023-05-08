@@ -34,7 +34,7 @@ contract GameCollection is ERC1155 {
         address from,
         uint256 id,
         uint256 amount
-    ) external itemOwner(from) notContractOwner {
+    ) external notContractOwner itemOwner(from) {
         _burn(from, id, amount);
     }
 
@@ -42,7 +42,7 @@ contract GameCollection is ERC1155 {
         address from,
         uint256[] calldata ids,
         uint256[] calldata amount
-    ) external itemOwner(from) notContractOwner {
+    ) external notContractOwner itemOwner(from) {
         _burnBatch(from, ids, amount);
     }
 
@@ -50,7 +50,7 @@ contract GameCollection is ERC1155 {
         address to,
         uint256 id,
         uint256 amount
-    ) external itemOwner(to) notContractOwner {
+    ) external notContractOwner itemOwner(to) {
         uint256 elapsedTime = block.timestamp - _lastMintedTime[to];
         if (id <= 2 && elapsedTime <= 60) {
             revert(Strings.toString(elapsedTime));

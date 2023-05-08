@@ -29,18 +29,17 @@ describe("Forger Tests", function () {
         return { provider, userItemsIndex, itemsAmount };
     }
 
-    describe("Ownership", function () {
-        it("Contract owner cannot call functions", async function () {
+    describe("Item Trading", function () {
+        it("Contract owner should not be able to call this function", async function () {
             const { owner, forger } = await loadFixture(deployContractFixture);
 
-            const id = 0;
+            const id = 3;
+            const burnId = 2;
 
-            await expect(forger.connect(owner).forgeItem(id))
+            await expect(forger.connect(owner).tradeItem(id, burnId))
                 .to.be.revertedWith("Owner cannot call this function!");
         });
-    });
 
-    describe("Item Trading", function () {
         it("Item traded for should have ID within range", async function () {
             const { user1, forger } = await loadFixture(deployContractFixture);
 
@@ -65,10 +64,34 @@ describe("Forger Tests", function () {
     });
 
     describe("Item Forging", function () {
-        it("Item should be minted successfully with event emitted", async function () {
-            const { user1, forger, gameCollection } = await loadFixture(deployContractFixture);
-            const { userItemsIndex } = await preMintItems(user1, gameCollection);
+        it("Contract owner should not be able to call this function", async function () {
+            const { owner, user1, forger, gameCollection } = await loadFixture(deployContractFixture);
+            await preMintItems(user1, gameCollection);
 
+            // Arbitray id within range of 0 - 6
+            const id = 3;
+
+            await expect(forger.connect(owner).forgeItem(id))
+                .to.be.revertedWith("Owner cannot call this function!");
+        });
+
+        it("Item without items requirements should be minted successfully with event emitted", async function () {
+            const { user1, forger, gameCollection } = await loadFixture(deployContractFixture);
+            await preMintItems(user1, gameCollection);
+
+            // Item id ranging from 2 and below does not have item requirements
+            const id = 2;
+
+            await expect(forger.connect(user1).forgeItem(id))
+                .to.emit(forger, "ItemMinted")
+                .withArgs(user1.address, id);
+        });
+
+        it("Item with items requirements should be minted successfully with event emitted", async function () {
+            const { user1, forger, gameCollection } = await loadFixture(deployContractFixture);
+            await preMintItems(user1, gameCollection);
+
+            // Item id ranging from 3 and above have item requirements
             const id = 3;
 
             await expect(forger.connect(user1).forgeItem(id))
