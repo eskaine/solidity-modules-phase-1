@@ -12,8 +12,8 @@ describe("My Token Tests", function () {
         return { owner, user1, user2, myToken };
     }
 
-    describe("Owner", function () {
-        it("Contract owner cannot call functions", async function () {
+    describe("Buying Tokens", function () {
+        it("Contract owner should not be able to call this function", async function () {
             const { owner, myToken } = await loadFixture(deployContractFixture);
 
             const value = ethers.utils.parseUnits("1", "ether");
@@ -21,9 +21,7 @@ describe("My Token Tests", function () {
             await expect(myToken.connect(owner).buyToken({value}))
                 .to.be.revertedWith("Owner cannot call this function!");
         });
-    });
 
-    describe("Buying Tokens", function () {
         it("Should revert if user did not provide sufficient funds", async function () {
             const { user1, myToken } = await loadFixture(deployContractFixture);
 
@@ -54,7 +52,14 @@ describe("My Token Tests", function () {
     });
 
     describe("Tokens Sellback", function () {
-        it("Should revert if owner does not have enough funds to pay for sellback", async function () {
+        it("Contract owner should not be able to call this function", async function () {
+            const { owner, myToken } = await loadFixture(deployContractFixture);
+
+            await expect(myToken.connect(owner).sellBack(10))
+                .to.be.revertedWith("Owner cannot call this function!");
+        });
+
+        it("Should revert if user does not have enough funds to pay for sellback", async function () {
             const { user1, myToken } = await loadFixture(deployContractFixture);
 
             await expect(myToken.connect(user1).sellBack(10))
@@ -92,6 +97,13 @@ describe("My Token Tests", function () {
     });
 
     describe("Withdrawing Tokens", function () {
+        it("Should revert if address is invalid", async function () {
+            const { user1, myToken } = await loadFixture(deployContractFixture);
+
+            await expect(myToken.connect(user1).withdraw(ethers.constants.AddressZero))
+                .to.be.revertedWith("Invalid address!");
+        });
+
         it("Should revert if transaction caller is not owner", async function () {
             const { user1, myToken } = await loadFixture(deployContractFixture);
 
