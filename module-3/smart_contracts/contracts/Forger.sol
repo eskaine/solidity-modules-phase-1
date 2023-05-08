@@ -21,8 +21,8 @@ contract Forger {
     }
 
     function tradeItem(uint256 id, uint256 burnId) external notOwner {
-        require(_tradableItems[id], "Item is not tradable!");
-        
+        require(_tradableItems[id] && id != burnId, "Item is not tradable!");
+
         emit ItemTraded(msg.sender, id, burnId);
 
         _gameCollection.burn(msg.sender, burnId, ITEM_RATE);

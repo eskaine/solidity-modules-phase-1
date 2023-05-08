@@ -83,7 +83,7 @@ describe("Game Collection Tests", function () {
     });
 
     describe("Token Burn & Batch Burn", function () {
-        it("Token should burn successfully", async function () {
+        it("Token should burn successfully with event emitted", async function () {
             const { user1, gameCollection } = await loadFixture(deployContractFixture);
             const { userItemsIndex, itemsAmount } = await preMintItems(user1, gameCollection);
 
@@ -98,7 +98,7 @@ describe("Game Collection Tests", function () {
                 .withArgs(address, address, zeroAddress, id, amount);
         });
 
-        it("Token should batch burn successfully", async function () {
+        it("Token should batch burn successfully with event emitted", async function () {
             const { user1, gameCollection } = await loadFixture(deployContractFixture);
             const { userItemsIndex, itemsAmount } = await preMintItems(user1, gameCollection);
 
@@ -125,7 +125,7 @@ describe("Game Collection Tests", function () {
                 .to.be.revertedWith(elapsedTimeString);
         });
 
-        it("User should be able to mint items from id 0 to 2 after waiting for a min", async function () {
+        it("User should be able to mint items from id 0 to 2 after waiting for a min with event emitted", async function () {
             const { user1, gameCollection } = await loadFixture(deployContractFixture);
             const provider = ethers.provider;
 
