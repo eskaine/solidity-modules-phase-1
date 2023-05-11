@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "./MyNftContract.sol";
 import "./MyToken.sol";
 
 contract MyAuthorityContract is IERC721Receiver {
-    address public owner;
-    MyToken private _myToken;
-    MyNftContract private _myNftContract;
+    address public immutable owner;
+    MyToken private immutable _myToken;
+    MyNftContract private immutable _myNftContract;
     uint256 public constant TIME_PER_DAY = 86400;
     uint256 public constant REWARD_PER_TOKEN = 10;
 
@@ -17,7 +17,7 @@ contract MyAuthorityContract is IERC721Receiver {
     mapping(address => uint256[]) private _ownerStakedTokenList;
     // track time of last claimed staking rewards
     mapping(address => uint256) private _lastClaimed;
-    
+
     constructor(address myTokenAddress, address myNftContractAddress) {
         owner = msg.sender;
         _myToken = MyToken(myTokenAddress);
@@ -33,7 +33,7 @@ contract MyAuthorityContract is IERC721Receiver {
         _originalOwner[tokenId] = msg.sender;
         _ownerStakedTokenList[msg.sender].push(tokenId);
 
-        if(_lastClaimed[msg.sender] == 0) {
+        if (_lastClaimed[msg.sender] == 0) {
             _lastClaimed[msg.sender] = block.timestamp;
         }
 
@@ -52,7 +52,9 @@ contract MyAuthorityContract is IERC721Receiver {
         uint256 timeLapsed = block.timestamp - _lastClaimed[msg.sender];
         // reward is given out for every 24 hrs instead of proportional
         uint256 daysOfUnclaimed = timeLapsed / uint256(TIME_PER_DAY);
-        uint256 reward = daysOfUnclaimed * numberOfStakedNfts * REWARD_PER_TOKEN;
+        uint256 reward = daysOfUnclaimed *
+            numberOfStakedNfts *
+            REWARD_PER_TOKEN;
         // last claim is set to claimed number of days instead current timestamp
         // as leftover or unclaimed time is not factored in
         _lastClaimed[msg.sender] += daysOfUnclaimed * TIME_PER_DAY;

@@ -1,4 +1,4 @@
-# Staking NFTs
+# Module 2 - Staking NFTs
 
 You must create 3 separate smart contracts: an ERC20 token, and ERC721 token, and a third smart contract that can mint new ERC20 tokens and receive ERC721 tokens.
 

@@ -1,0 +1,423 @@
+Mutation testing report:
+Number of mutations:    38
+Killed:                 28 / 38
+
+Mutations:
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/Forger.sol
+    Line nr: 33
+    Result: Lived
+    Original line:
+                 if (_itemsRequirements[id].length > 0) {
+
+    Mutated line:
+                 if (_itemsRequirements[id].length >= 0) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/Forger.sol
+    Line nr: 37
+    Result: Error
+    Original line:
+                     for (uint i = 0; i < requiredItems.length; i++) {
+
+    Mutated line:
+                     for (uint i = 0; i <= requiredItems.length; i++) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/Forger.sol
+    Line nr: 23
+    Result: Killed
+    Original line:
+                 require(_tradableItems[id] && id != burnId, "Item is not tradable!");
+
+    Mutated line:
+                 require(_tradableItems[id] && id == burnId, "Item is not tradable!");
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/Forger.sol
+    Line nr: 33
+    Result: Lived
+    Original line:
+                 if (_itemsRequirements[id].length > 0) {
+
+    Mutated line:
+                 if (_itemsRequirements[id].length <= 0) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/Forger.sol
+    Line nr: 37
+    Result: Lived
+    Original line:
+                     for (uint i = 0; i < requiredItems.length; i++) {
+
+    Mutated line:
+                     for (uint i = 0; i >= requiredItems.length; i++) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/Forger.sol
+    Line nr: 62
+    Result: Killed
+    Original line:
+                 require(msg.sender != owner, "Owner cannot call this function!");
+
+    Mutated line:
+                 require(msg.sender == owner, "Owner cannot call this function!");
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/Forger.sol
+    Line nr: 18
+    Result: Lived
+    Original line:
+                 _setItemRequires();
+
+    Mutated line:
+                 
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/Forger.sol
+    Line nr: 19
+    Result: Killed
+    Original line:
+                 _setTradableItems();
+
+    Mutated line:
+                 
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/Forger.sol
+    Line nr: 22
+    Result: Killed
+    Original line:
+             function tradeItem(uint256 id, uint256 burnId) external notOwner {
+
+    Mutated line:
+             function tradeItem(uint256 id, uint256 burnId) external  {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/Forger.sol
+    Line nr: 32
+    Result: Killed
+    Original line:
+             function forgeItem(uint256 id) external notOwner {
+
+    Mutated line:
+             function forgeItem(uint256 id) external  {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 21
+    Result: Killed
+    Original line:
+                 for (uint i = 0; i < addresses.length; i++) {
+
+    Mutated line:
+                 for (uint i = 0; i <= addresses.length; i++) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 54
+    Result: Lived
+    Original line:
+                 if (id <= 2 && elapsedTime <= 60) {
+
+    Mutated line:
+                 if (id < 2 && elapsedTime <= 60) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 54
+    Result: Lived
+    Original line:
+                 if (id <= 2 && elapsedTime <= 60) {
+
+    Mutated line:
+                 if (id <= 2 && elapsedTime < 60) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 56
+    Result: Lived
+    Original line:
+                 } else if (id <= 2 && elapsedTime > 60) {
+
+    Mutated line:
+                 } else if (id < 2 && elapsedTime > 60) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 56
+    Result: Lived
+    Original line:
+                 } else if (id <= 2 && elapsedTime > 60) {
+
+    Mutated line:
+                 } else if (id <= 2 && elapsedTime >= 60) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 68
+    Result: Killed
+    Original line:
+                 require(itemOwnerAddress == tx.origin, "You are not item owner!");
+
+    Mutated line:
+                 require(itemOwnerAddress != tx.origin, "You are not item owner!");
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 22
+    Result: Killed
+    Original line:
+                     if (addresses[i] != msg.sender) {
+
+    Mutated line:
+                     if (addresses[i] == msg.sender) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 21
+    Result: Killed
+    Original line:
+                 for (uint i = 0; i < addresses.length; i++) {
+
+    Mutated line:
+                 for (uint i = 0; i >= addresses.length; i++) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 54
+    Result: Killed
+    Original line:
+                 if (id <= 2 && elapsedTime <= 60) {
+
+    Mutated line:
+                 if (id > 2 && elapsedTime <= 60) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 54
+    Result: Killed
+    Original line:
+                 if (id <= 2 && elapsedTime <= 60) {
+
+    Mutated line:
+                 if (id <= 2 && elapsedTime > 60) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 56
+    Result: Killed
+    Original line:
+                 } else if (id <= 2 && elapsedTime > 60) {
+
+    Mutated line:
+                 } else if (id > 2 && elapsedTime > 60) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 56
+    Result: Killed
+    Original line:
+                 } else if (id <= 2 && elapsedTime > 60) {
+
+    Mutated line:
+                 } else if (id <= 2 && elapsedTime <= 60) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 68
+    Result: Killed
+    Original line:
+                 require(itemOwnerAddress == tx.origin, "You are not item owner!");
+
+    Mutated line:
+                 require(itemOwnerAddress != tx.origin, "You are not item owner!");
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 73
+    Result: Killed
+    Original line:
+                 require(msg.sender != owner, "Owner cannot call this function!");
+
+    Mutated line:
+                 require(msg.sender == owner, "Owner cannot call this function!");
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 53
+    Result: Killed
+    Original line:
+                 uint256 elapsedTime = block.timestamp - _lastMintedTime[to];
+
+    Mutated line:
+                 uint256 elapsedTime = block.timestamp + _lastMintedTime[to];
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 24
+    Result: Killed
+    Original line:
+                         revert("Invalid addresses!");
+
+    Mutated line:
+                         
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 37
+    Result: Killed
+    Original line:
+                 _burn(from, id, amount);
+
+    Mutated line:
+                 
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 45
+    Result: Killed
+    Original line:
+                 _burnBatch(from, ids, amount);
+
+    Mutated line:
+                 
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 55
+    Result: Killed
+    Original line:
+                     revert(Strings.toString(elapsedTime));
+
+    Mutated line:
+                     
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 60
+    Result: Killed
+    Original line:
+                 _mint(to, id, amount, "");
+
+    Mutated line:
+                 
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 13
+    Result: Equivalent
+    Original line:
+             constructor() ERC1155("") {
+
+    Mutated line:
+             constructor()  {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 20
+    Result: Killed
+    Original line:
+             ) external view notContractOwner returns (uint256[] memory) {
+
+    Mutated line:
+             ) external view  returns (uint256[] memory) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 36
+    Result: Killed
+    Original line:
+             ) external notContractOwner itemOwner(from) {
+
+    Mutated line:
+             ) external  itemOwner(from) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 36
+    Result: Killed
+    Original line:
+             ) external notContractOwner itemOwner(from) {
+
+    Mutated line:
+             ) external notContractOwner  {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 44
+    Result: Killed
+    Original line:
+             ) external notContractOwner itemOwner(from) {
+
+    Mutated line:
+             ) external  itemOwner(from) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 44
+    Result: Killed
+    Original line:
+             ) external notContractOwner itemOwner(from) {
+
+    Mutated line:
+             ) external notContractOwner  {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 52
+    Result: Killed
+    Original line:
+             ) external notContractOwner itemOwner(to) {
+
+    Mutated line:
+             ) external  itemOwner(to) {
+
+
+Mutation:
+    File: /Users/eskaine/Developer/metana/module-4/module-3/smart_contracts/contracts/GameCollection.sol
+    Line nr: 52
+    Result: Killed
+    Original line:
+             ) external notContractOwner itemOwner(to) {
+
+    Mutated line:
+             ) external notContractOwner  {
+
+

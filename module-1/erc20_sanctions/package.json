@@ -1,11 +1,17 @@
 {
   "name": "erc20_sanctions",
   "scripts": {
-    "start": "npx hardhat run --network localhost scripts/run.js"
+    "start": "npx hardhat run --network localhost scripts/run.js",
+    "lint": "./node_modules/.bin/solhint contracts/**/*.sol --fix",
+    "format": "./node_modules/.bin/prettier --write contracts/**/*.sol"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
     "@openzeppelin/contracts": "^4.8.3",
-    "hardhat": "^2.14.0"
+    "hardhat": "^2.14.0",
+    "prettier": "^2.8.8",
+    "prettier-plugin-solidity": "^1.1.3",
+    "solhint": "^3.4.1",
+    "solhint-plugin-prettier": "^0.0.5"
   }
 }

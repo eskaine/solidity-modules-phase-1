@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.18;
 
 import "./MyNftContract.sol";
 import "./MyToken.sol";
 
 contract MyAuthorityContract {
-    address public owner;
-    MyToken private _myToken;
-    MyNftContract private _myNftContract;
-    uint256 public constant BASE_TOKEN_AMOUNT = 10000000000000000000;
-    uint256 public constant NFT_TOKEN_COST = 10000000000000000000;
+    address public immutable owner;
+    MyToken private immutable _myToken;
+    MyNftContract private immutable _myNftContract;
+    uint256 public constant BASE_TOKEN_AMOUNT = 1e19;
+    uint256 public constant NFT_TOKEN_COST = 1e19;
 
     constructor(address myTokenAddress, address myNftContractAddress) {
         owner = msg.sender;
@@ -23,10 +23,15 @@ contract MyAuthorityContract {
 
     function mintNft() external notOwner {
         uint256 tokenAllowance = _myToken.allowance(msg.sender, address(this));
-        require(tokenAllowance == NFT_TOKEN_COST, "Token withdrawal not approved!");
+        require(
+            tokenAllowance == NFT_TOKEN_COST,
+            "Token withdrawal not approved!"
+        );
 
-        _myToken.safeTransferFrom(msg.sender, address(this), tokenAllowance);
-        _myNftContract.mint(msg.sender);
+        bool isTransfer = _myToken.transferFrom(msg.sender, address(this), tokenAllowance);
+        if(isTransfer) {
+            _myNftContract.mint(msg.sender);
+        }
     }
 
     // pre nft minting, token transfer approval
